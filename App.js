@@ -25,17 +25,25 @@ import { Booking } from "./app/main/booking/Booking";
 import { RecentTrips } from "./app/main/recent/RecentTrips";
 import { Support } from "./app/main/support/Support";
 import { TravelPlan } from "./app/main/tracking/TravelPlan";
+import { Notifications } from "./app/main/Notifications/Notifications";
 import User from "./app/main/User";
 import { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+//Firbase
+import app from "./firebase/firebaseConfig";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [logging, SetLogging] = useState(false);
   const [selcetedId, setSelcetedId] = useState(0);
   const [selcetedCity, setSelcetedCity] = useState("");
   const [numberOfBookings, setNumber] = useState(0);
+  const [user, setUser] = useState();
 
   const [cities, setCities] = useState([
     { id: 1, name: "Kampala" },
@@ -71,8 +79,10 @@ export default function App() {
   };
 
   const HomeScreen = ({ navigation }) => {
+    console.log(user);
     return (
       <Home
+        name={user.name}
         toWallet={() => navigation.navigate("My Wallet")}
         toProfile={() => navigation.navigate("Profile")}
         toEvents={() => navigation.navigate("Events")}
@@ -80,7 +90,7 @@ export default function App() {
         toPay={() => navigation.navigate("Select Payment Method")}
         toTrack={() => navigation.navigate("Vehicle Tracking")}
         toRecent={() => navigation.navigate("My Recent Trips")}
-        toSupport={() => navigation.navigate("Local Support")}
+        toNotification={() => navigation.navigate("Notifications")}
         toTravel={() => navigation.navigate("My Travel Plan")}
       />
     );
@@ -112,6 +122,10 @@ export default function App() {
     const nav = useNavigation();
     return <Support />;
   };
+  const NotificationsScreen = () => {
+    const nav = useNavigation();
+    return <Notifications />;
+  };
   const TravelPlanScreen = () => {
     const nav = useNavigation();
     return <TravelPlan />;
@@ -130,23 +144,46 @@ export default function App() {
   };
   const ProfileScreen = () => {
     const navigation = useNavigation();
-    function getToHome() {
-      if (!signedIn) {
-        navigation.popToTop();
-      } else {
+    const HandleLogout = () => {
+      try {
+        function logout() {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve();
+              setSignedIn(false);
+              navigation.popToTop();
+            }, 10);
+          });
+        }
+        Alert.alert("Logout Alert!", "Are you sure you want to logout?", [
+          {
+            text: "cancel",
+            onPress: () => {
+              return;
+            },
+            style: "cancel",
+          },
+          {
+            text: "ok",
+            onPress: () => {
+              return logout();
+            },
+          },
+        ]);
+      } catch (error) {
+        console.log("error");
       }
-    }
+    };
+
     return (
       <Profile
+        email={user.email}
         back={() => navigation.goBack()}
         goHome={() => navigation.navigate("Home")}
         goEvents={() => navigation.navigate("Events")}
         toBook={() => navigation.navigate("My Bookings")}
         toUser={() => navigation.navigate("User Account")}
-        logoutFunction={() => {
-          getToHome(), HandleLogout();
-          //.then(getToHome);
-        }}
+        logoutFunction={() => HandleLogout()}
       />
     );
   };
@@ -168,18 +205,73 @@ export default function App() {
 
   const LoginScreen = () => {
     const navigation = useNavigation();
-    function getToHome() {
-      navigation.popToTop();
-    }
+    const handleLogin = (email, password) => {
+      SetLogging(true);
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          //check with firebase
+          const auth = getAuth();
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              // Signed in
+              const user = userCredential.user;
+              //console.log(user.displayName);
+              setUser({
+                userID: user.uid,
+                name: user.displayName,
+                phoneNumber: user.phoneNumber,
+                email: user.email,
+                verified: user.emailVerified,
+              });
+              console.log("Success");
+            })
+            .then(() => {
+              navigation.popToTop();
+              setSignedIn(true);
+              SetLogging(false);
+            })
+            .catch((error) => {
+              Alert.alert("Login Error!", error.code);
+              console.log(error.message);
+              SetLogging(false);
+            });
+
+          resolve();
+        }, 100);
+      });
+    };
+    const logInWithFacebook = () => {
+      SetLogging(true);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          setSignedIn(true);
+          SetLogging(false);
+          navigation.popToTop();
+          resolve();
+        }, 100);
+      });
+    };
+    const logInWithGoogle = () => {
+      SetLogging(true);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          setSignedIn(true);
+          SetLogging(false);
+          navigation.popToTop();
+          resolve();
+        }, 100);
+      });
+    };
     return (
       <Login
         verifying={logging}
         goToForgot={() => navigation.navigate("Forgot Password")}
         //loginFunction={handleLogin}
         create={() => navigation.navigate("Select City")}
-        loginFunction={() => {
-          handleLogin().then(getToHome);
-        }}
+        loginFunction={handleLogin}
+        loginWithFb={logInWithFacebook}
+        loginWithGoogle={logInWithGoogle}
       />
     );
   };
@@ -187,7 +279,7 @@ export default function App() {
     return <Forgot />;
   };
   const SignUpScreen = ({ navigation }) => {
-    console.log(selcetedCity);
+    //console.log(selcetedCity);
     return (
       <SignUp
         loginInstead={() => navigation.navigate("Login")}
@@ -209,46 +301,6 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
 
-  const handleLogin = () => {
-    SetLogging(true);
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        setSignedIn(true);
-        SetLogging(false);
-        resolve();
-      }, 100);
-    });
-  };
-  const HandleLogout = () => {
-    try {
-      function logout() {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve();
-            setSignedIn(false);
-          }, 10);
-        });
-      }
-      Alert.alert("Logout Alert!", "Are you sure you want to logout?", [
-        {
-          text: "cancel",
-          onPress: () => {
-            console.log("No!");
-          },
-          style: "cancel",
-        },
-        {
-          text: "ok",
-          onPress: () => {
-            return logout();
-          },
-        },
-      ]);
-    } catch (error) {
-      console.log("error");
-    }
-  };
-
   useEffect(() => {
     const lock = async () =>
       await ScreenOrientation.lockAsync(
@@ -261,19 +313,22 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator
-        screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: "horizontal",
-          animationEnabled: true,
-        }}
-      >
+      <Stack.Navigator animationType="fade">
         <Stack.Screen
           name="Get Started"
           component={signedIn ? HomeScreen : GetStartedScreen}
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          screenOptions={{}}
+          name="Notifications"
+          component={NotificationsScreen}
+          options={styles.headerOptions}
+          gestureEnabled={true}
+          gestureDirection="horizontal"
+          //animationEnabled: true,
         />
         <Stack.Screen
           name="Login"

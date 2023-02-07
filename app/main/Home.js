@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Animated,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 //import setRota
@@ -32,7 +33,8 @@ export default function Home({
   toBook,
   toRecent,
   toTravel,
-  toSupport,
+  toNotification,
+  name,
 }) {
   const today = new Date();
   const hr = today.getHours();
@@ -40,6 +42,14 @@ export default function Home({
   //const Drawer = createDrawerNavigator();
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const [arrowDirection, setArrowDirection] = useState("down");
+
+  const [events, setEvents] = useState([
+    { id: 1, name: "Destination", image: "../assets/images/image1.jpg" },
+    { id: 2, name: "Destination", image: "../assets/images/image2.jpg" },
+    { id: 3, name: "Destination", image: "../assets/images/image3.jpg" },
+    { id: 4, name: "Destination", image: "../assets/images/image4.jpg" },
+    { id: 5, name: "Destination", image: "../assets/images/image5.jpg" },
+  ]);
 
   //   const onScroll = (e) => {
   //     const currentY = e.nativeEvent.contentOffset.y;
@@ -54,7 +64,7 @@ export default function Home({
 
   return (
     <View style={styles.home}>
-      <StatusBar style="light" backgroundColor="#F7BE15" />
+      <StatusBar style="light" backgroundColor="orange" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{ width: "100%" }}
@@ -64,11 +74,13 @@ export default function Home({
           <Header
             ViewComponent={LinearGradient}
             linearGradientProps={styles.linear}
-            containerStyle={{ width: "100%", height: 180 }}
-            backgroundColor="grey"
-            centerComponent={<TouchableOpacity>{/*  */}</TouchableOpacity>}
+            containerStyle={{
+              width: "100%",
+              height: 140,
+            }}
+            backgroundColor="orange"
             rightComponent={
-              <TouchableOpacity>
+              <TouchableOpacity onPress={toNotification}>
                 <Ionicons name="notifications" size={35} color="#1F1F1F" />
                 <Badge
                   badgeStyle={styles.badge}
@@ -86,7 +98,7 @@ export default function Home({
                     ? "Good afternoon"
                     : "Good evening"}
                 </Text>
-                <Text style={styles.name}>Josephat</Text>
+                <Text style={styles.name}>{name}</Text>
               </View>
             }
           />
@@ -102,95 +114,130 @@ export default function Home({
               <Text style={{ color: "orange" }}>Add to wallet</Text>
             </TouchableOpacity>
           </View>
-          <Text
-            style={[
-              styles.name,
-              {
-                fontSize: 20,
-                color: "grey",
-                alignSelf: "flex-start",
-                marginLeft: 15,
-              },
-            ]}
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ width: "100%" }}
+            nestedScrollEnabled={true}
           >
-            Services
-          </Text>
-          <View style={styles.area}>
-            <TouchableOpacity
-              style={[styles.select, styles.boxShadow]}
-              onPress={toWallet}
-            >
-              <Entypo name="wallet" size={40} color="orange" />
-              <Text style={styles.text}>In-App Wallet</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.select, styles.boxShadow]}
-              onPress={toTrack}
-            >
-              <MaterialCommunityIcons
-                name="car-connected"
-                size={40}
-                color="orange"
-              />
-              <Text style={styles.text}>Rent a car</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.area}>
-            <TouchableOpacity
-              style={[styles.selectOne, styles.boxShadow]}
-              onPress={toBook}
-            >
-              <FontAwesome name="bookmark" size={40} color="orange" />
-              <Text style={styles.text}>View Booking</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.selectOne, styles.boxShadow]}
-              onPress={toTravel}
-            >
-              <Entypo name="calendar" size={40} color="orange" />
-              <Text style={styles.text}>Travel Plan</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.selectOne, styles.boxShadow]}
-              onPress={toRecent}
-            >
-              <FontAwesome5 name="map-marker-alt" size={40} color="orange" />
-              <Text style={styles.text}>Recent Trips</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.area}>
-            <TouchableOpacity
-              style={[styles.selectTwo, styles.boxShadow]}
-              onPress={toEvents}
-            >
-              <Foundation name="target" size={40} color="orange" />
-              <Text style={styles.text}>Tour trips</Text>
-              <Badge
-                value="05 Trips"
-                badgeStyle={{
-                  width: 80,
-                  height: 30,
-                  top: "-20%",
-                  backgroundColor: "orange",
-                  borderRadius: 100,
-                  borderWidth: 1,
-                  borderColor: "grey",
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.area1}>
-            <View style={[styles.select3, { borderRadius: 5, borderWidth: 1 }]}>
-              <Text style={styles.text}>
-                Get to know about any trip, Travel with us to learn and discover
-              </Text>
+            <Text style={[styles.name, styles.areaText]}>Quick Access</Text>
+            <View style={styles.area}>
+              <TouchableOpacity
+                style={[styles.select, styles.boxShadow, styles.radius]}
+                onPress={toEvents}
+              >
+                <MaterialCommunityIcons
+                  name="map-marker-distance"
+                  size={40}
+                  color="orange"
+                />
+                <Text style={styles.text}>All Destinations</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.select, styles.boxShadow, styles.radius]}
+                onPress={toTrack}
+              >
+                <MaterialIcons name="hotel" size={40} color="orange" />
+                <Text style={styles.text}>Book Hotel Room</Text>
+              </TouchableOpacity>
             </View>
-          </View>
+            <View style={styles.area}>
+              <TouchableOpacity
+                style={[styles.select, styles.boxShadow, styles.radius]}
+                onPress={toWallet}
+              >
+                <Entypo name="wallet" size={40} color="orange" />
+                <Text style={styles.text}>In-App Wallet</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.select, styles.boxShadow, styles.radius]}
+                onPress={toBook}
+              >
+                <FontAwesome name="bookmark" size={40} color="orange" />
+                <Text style={styles.text}>My Bookings</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={[styles.areaText]}>Suggested For You </Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {events.map((event) => {
+                return (
+                  <TouchableOpacity
+                    key={event.id}
+                    style={[styles.boxShadow, styles.tripContainer]}
+                  >
+                    <Image
+                      style={[styles.trip, styles.boxShadow]}
+                      source={require(`../assets/images/image1.jpg`)}
+                    />
+                    <Text style={styles.text}>{event.name}</Text>
+                    <Text style={styles.text}>The Details will be here</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+
+            <View style={styles.area}>
+              <TouchableOpacity
+                style={[styles.selectTwo, styles.boxShadow, styles.radius]}
+                onPress={toEvents}
+              >
+                <MaterialCommunityIcons
+                  name="map-marker-distance"
+                  size={50}
+                  color="orange"
+                />
+                <Text style={styles.text}>Up-Coming Destinations</Text>
+                <Badge
+                  value="05 Trips"
+                  badgeStyle={{
+                    width: 80,
+                    height: 30,
+                    top: "-20%",
+                    backgroundColor: "orange",
+                    borderRadius: 100,
+                    borderWidth: 1,
+                    borderColor: "grey",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={[styles.areaText]}>Popular Destinations</Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {events.map((event) => {
+                return (
+                  <TouchableOpacity
+                    key={event.id}
+                    style={[styles.boxShadow, styles.tripContainer]}
+                  >
+                    <Image
+                      style={[styles.trip, styles.boxShadow]}
+                      source={require(`../assets/images/image2.jpg`)}
+                    />
+                    <Text style={styles.text}>{event.name}</Text>
+                    <Text style={styles.text}>The Details will be here</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+            <View style={styles.area1}>
+              <View
+                style={[styles.select3, { borderRadius: 5, borderWidth: 1 }]}
+              >
+                <Text style={styles.text}>
+                  Discover any Trip around the country with us, let us link you
+                  there
+                </Text>
+              </View>
+            </View>
+          </ScrollView>
         </View>
       </ScrollView>
-      {/* <AnimatedArrow scrollY={scrollY} direction={arrowDirection} /> */}
+
       <Navigation
         profile={toProfile}
         isHome={home}
@@ -211,14 +258,14 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   linear: {
-    colors: ["#F7BE15", "orange", "#ff5349"],
+    colors: ["orange", "orange", "#ff5349"],
     start: { x: 0, y: 0.5 },
     end: { x: 1, y: 0.5 },
   },
   greet: {
     fontWeight: "bold",
-    fontSize: 20,
-    letterSpacing: -1,
+    fontSize: 25,
+    letterSpacing: -0.8,
     color: "#fff",
   },
   name: {
@@ -228,7 +275,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   children: {
-    width: 150,
+    width: 180,
     alignContent: "center",
     alignItems: "flex-start",
     height: "80%",
@@ -252,8 +299,8 @@ const styles = StyleSheet.create({
     width: "80%",
     alignContent: "center",
     alignItems: "center",
-    height: "10%",
-    top: "-7%",
+    height: "8%",
+    top: "-5%",
     borderRadius: 5,
     display: "flex",
     flexDirection: "row",
@@ -274,8 +321,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    margin: 6,
-    height: 90,
+    margin: 5,
+    height: 80,
   },
   area1: {
     alignContent: "center",
@@ -323,14 +370,33 @@ const styles = StyleSheet.create({
   boxShadow: {
     shadowColor: "#000",
     shadowOffset: { width: 6, height: 10 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.9,
     shadowRadius: 2,
     elevation: 5,
+  },
+  radius: {
     borderRadius: 10,
     alignContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: "lightgrey",
+  },
+  tripContainer: {
+    height: 230,
+    backgroundColor: "#fff",
+    margin: 5,
+    borderRadius: 5,
+    borderWidth: 0.4,
+    borderColor: "grey",
+  },
+  trip: {
+    width: 150,
+    backgroundColor: "orange",
+    height: 150,
+    margin: 5,
+    borderRadius: 5,
+    alignContent: "center",
+    alignItems: "center",
   },
   text: {
     color: "grey",
@@ -339,5 +405,12 @@ const styles = StyleSheet.create({
     lineHeight: 15,
     letterSpacing: -0.1,
     textAlign: "center",
+  },
+  areaText: {
+    fontSize: 20,
+    color: "orange",
+    alignSelf: "flex-start",
+    marginLeft: 15,
+    fontWeight: "bold",
   },
 });

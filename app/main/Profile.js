@@ -23,6 +23,7 @@ export default function Profile({
   toBook,
   logoutFunction,
   toUser,
+  email,
 }) {
   const profile = true;
 
@@ -37,12 +38,12 @@ export default function Profile({
           <Header
             ViewComponent={LinearGradient}
             linearGradientProps={{
-              colors: ["orange", "orange", "grey"],
+              colors: ["orange", "orange", "#ff5349"],
               start: { x: 0, y: 0.5 },
               end: { x: 1, y: 0.5 },
             }}
             containerStyle={{ width: "100%", height: 130 }}
-            backgroundColor="grey"
+            backgroundColor="transparent"
             rightComponent={
               <TouchableOpacity style={styles.user} onPress={toUser}>
                 <AntDesign name="user" size={30} color="#fff" />
@@ -84,7 +85,7 @@ export default function Profile({
             <Text style={styles.text}>
               <Text>Logged in As </Text>
 
-              <Text>jumajosephat61@gmail.com </Text>
+              <Text>{email}</Text>
             </Text>
           </View>
           <View style={styles.area}>
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     //justifyContent: "center",
     width: "100%",
-    height: 700,
+    height: 600,
   },
   user: {
     borderWidth: 2,

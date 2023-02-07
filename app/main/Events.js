@@ -29,7 +29,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
-const port = "http://192.168.103.198";
+const port = "http://192.168.72.77";
 // 192.168.103.198
 const bookingAPI = port + ":10000/user/booking/";
 const tripsAPI = port + ":10000/all/trips";
@@ -53,6 +53,30 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
   const [trips, setTrips] = useState([]);
   const [refreshing, setRefreshing] = React.useState(false);
 
+  //Function to fetch trips
+  const fetchTrips = () => {
+    if (trips.length <= 0) {
+      fetch(tripsAPI)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            var values = Object.values(data);
+            for (var i = 0; i < values.length; i++) {
+              const trip = values[i];
+              setTrips((prevNotes) => [...prevNotes, trip]);
+            }
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          alert(error.message);
+          console.log(error.message);
+          setLoading(false);
+        });
+    }
+  };
+
+  //Function to search for trips
   const searchForTrip = (searchTerm) => {
     trips.filter(
       (item) => {
@@ -60,8 +84,6 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
       }
       //item.id.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    //console.log(result);
-    // return result;
   };
   const seeTripDetails = (id) => {
     setShowDetails(true);
@@ -76,6 +98,7 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
     setSuccess(false);
   };
 
+  //make a booking
   const bookingProcess = () => {
     let booking = trips.find((trip) => trip.id === selectedTrip);
     booking = { ...booking, userID: "54r73wet4gh3b4pejh" };
@@ -99,47 +122,33 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
               }
             );
             setBooking(false);
-
             return;
           }
           setSuccess(true);
-          //setUid(response.data.uid);
           setBooking(false);
         })
         .catch((error) => {
           alert(error);
           setBooking(false);
-
           console.log(error);
         });
-    }, 10);
+    }, 2000);
   };
+
+  //Refresh
   const onRefresh = React.useCallback(() => {
+    setTrips([]);
+    setLoading(true);
     setRefreshing(true);
     setTimeout(() => {
+      fetchTrips();
       setRefreshing(false);
-    }, 2000);
+    }, 1000);
   }, []);
+
+  //Initial Fetch when the component renders
   useEffect(() => {
-    if (trips.length <= 0) {
-      fetch(tripsAPI)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data) {
-            var values = Object.values(data);
-            for (var i = 0; i < values.length; i++) {
-              const trip = values[i];
-              setTrips((prevNotes) => [...prevNotes, trip]);
-            }
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          alert(error.message);
-          console.log(error.message);
-          setLoading(false);
-        });
-    }
+    fetchTrips();
   }, []);
 
   return (
@@ -246,8 +255,19 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
           }
         >
           {trips.length === 0 ? (
-            <View style={[styles.boxShadow, styles.loading, { height: 500 }]}>
+            <View
+              style={[
+                styles.boxShadow,
+                styles.loading,
+                { height: 400, flexDirection: "column" },
+              ]}
+            >
               <Text style={styles.text}>There are no trips currently</Text>
+              <Button
+                title="Refresh"
+                onPress={onRefresh}
+                buttonStyle={{ backgroundColor: "darkblue" }}
+              />
             </View>
           ) : (
             trips.map((trip) => {

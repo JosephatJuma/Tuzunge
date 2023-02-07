@@ -31,7 +31,7 @@ export default function Navigation({
         >
           <FontAwesome
             name="tachometer"
-            size={28}
+            size={25}
             color={isHome ? "orange" : "#808080"}
           />
           <Text
@@ -46,13 +46,13 @@ export default function Navigation({
         >
           <MaterialIcons
             name="explore"
-            size={28}
+            size={25}
             color={isEvents ? "orange" : "#808080"}
           />
           <Text
             style={[styles.text, isEvents ? styles.textCurrent : styles.other]}
           >
-            Trips
+            Events
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -61,7 +61,7 @@ export default function Navigation({
         >
           <FontAwesome5
             name="briefcase"
-            size={28}
+            size={25}
             color={isBookings ? "orange" : "#808080"}
           />
           <Text
@@ -74,12 +74,30 @@ export default function Navigation({
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          style={[isBookings ? styles.current : {}, styles.item]}
+          onPress={bookings}
+        >
+          <FontAwesome5
+            name="star"
+            size={25}
+            color={isBookings ? "orange" : "#808080"}
+          />
+          <Text
+            style={[
+              styles.text,
+              isBookings ? styles.textCurrent : styles.other,
+            ]}
+          >
+            Ratings
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={profile}
           style={[isProfile ? styles.current : {}, styles.item]}
         >
           <FontAwesome
             name="user"
-            size={28}
+            size={25}
             color={isProfile ? "orange" : "#808080"}
           />
           <Text
@@ -102,7 +120,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     bottom: 0,
-    borderColor: "#F7BE15",
+    borderColor: "orange",
+    borderTopWidth: 1,
     // shadowColor: "#000",
     // shadowOffset: { width: 2, height: 2 },
     // shadowOpacity: 1,

@@ -15,7 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-const port = "http://192.168.103.198";
+const port = "http://192.168.72.77";
 //"localhost";
 const endpointURL = port + ":10000/user/create";
 export default function SignUp({ loginInstead, myCity }) {
@@ -24,7 +24,7 @@ export default function SignUp({ loginInstead, myCity }) {
   const [name, setName] = useState("");
   const [password, setPass] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("+256");
 
   //validations
   const [isValidEmail, setValidEmail] = useState(false);
@@ -167,10 +167,33 @@ export default function SignUp({ loginInstead, myCity }) {
         </View>
       ) : (
         <>
-          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#000" }}>
-            Sign up for free!
+          <Text
+            style={{ fontSize: 30, fontWeight: "bold", color: "#000000c0" }}
+          >
+            Create Account for free!
           </Text>
-
+          <View style={styles.form}>
+            <Text style={styles.text}>Full name</Text>
+            <Input
+              disabled={disableForm}
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              placeholderTextColor="grey"
+              inputStyle={styles.input}
+              placeholder="Enter your name"
+              containerStyle={styles.inputCont}
+              leftIcon={<MaterialIcons name="person" size={24} color="grey" />}
+              errorMessage={
+                isValidName ? (
+                  <Ionicons name="checkmark-circle" size={16} color="orange" />
+                ) : (
+                  <Text>Please give a valid name!</Text>
+                )
+              }
+              errorStyle={styles.err}
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
           <View style={styles.form}>
             <Text style={styles.text}>Enter email address</Text>
             <Input
@@ -195,28 +218,7 @@ export default function SignUp({ loginInstead, myCity }) {
               onChangeText={setEmail}
             />
           </View>
-          <View style={styles.form}>
-            <Text style={styles.text}>Full name</Text>
-            <Input
-              disabled={disableForm}
-              inputContainerStyle={{ borderBottomWidth: 0 }}
-              placeholderTextColor="grey"
-              inputStyle={styles.input}
-              placeholder="Enter your name"
-              containerStyle={styles.inputCont}
-              leftIcon={<MaterialIcons name="person" size={24} color="grey" />}
-              errorMessage={
-                isValidName ? (
-                  <Ionicons name="checkmark-circle" size={15} color="orange" />
-                ) : (
-                  <Text>Please give a valid name!</Text>
-                )
-              }
-              errorStyle={styles.err}
-              value={name}
-              onChangeText={setName}
-            />
-          </View>
+
           <View style={styles.form}>
             <Text style={styles.text}>Phone number</Text>
             <Input
@@ -322,13 +324,21 @@ export default function SignUp({ loginInstead, myCity }) {
               buttonStyle={styles.signUpBtn}
               titleStyle={styles.signUpBtnText}
             />
-            <Text
-              style={styles.insteadText}
+            <Button
+              title="Login instead"
               onPress={loginInstead}
               disabled={disableForm}
-            >
-              LOGIN INSTEAD
-            </Text>
+              buttonStyle={[
+                styles.signUpBtn,
+                {
+                  backgroundColor: "#fff",
+                  borderWidth: 2,
+                  borderColor: "#000",
+                  marginTop: 10,
+                },
+              ]}
+              titleStyle={styles.signUpBtnText}
+            />
           </View>
         </>
       )}
@@ -363,20 +373,22 @@ const styles = StyleSheet.create({
   },
   form: {
     width: "90%",
-    marginTop: 10,
+    marginTop: 5,
     backgroundColor: "#F5F5F5",
     alignContent: "center",
     justifyContent: "center",
   },
   text: {
-    color: "#000",
+    color: "#000000c0",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    margin: 2,
+    marginLeft: 10,
   },
   input: { fontWeight: "bold", color: "grey", fontSize: 15 },
   inputCont: {
     borderColor: "orange",
-    borderWidth: 0.5,
+    borderWidth: 1,
     justifyContent: "space-evenly",
     height: 50,
     borderRadius: 10,

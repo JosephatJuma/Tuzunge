@@ -40,14 +40,14 @@ export default function GetStarted({ toLogin, toSignUp }) {
         </View>
       </ImageBackground>
       <LinearGradient
-        colors={["#F7BE80c0", "#F7BE15", "orange"]}
+        colors={["#F7BE80c0", "orange", "orange"]}
         style={styles.btnArea}
       >
         <Button
           title="Login"
           buttonStyle={styles.btn}
           onPress={toLogin}
-          titleStyle={styles.btnText}
+          titleStyle={styles.btnTitle}
           containerStyle={styles.btnContainer}
         />
 
@@ -55,7 +55,7 @@ export default function GetStarted({ toLogin, toSignUp }) {
           title="Create Account"
           buttonStyle={styles.btn}
           onPress={toSignUp}
-          titleStyle={styles.btnText}
+          titleStyle={styles.btnTitle}
           containerStyle={styles.btnContainer}
         />
       </LinearGradient>
@@ -75,16 +75,13 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 100,
-    marginTop: 90,
+    marginTop: 120,
   },
   btnTitle: {
-    fontSize: 35,
+    fontSize: 22,
     textAlign: "center",
     fontWeight: "bold",
-    color: "#fff",
-    marginTop: 200,
-    textShadowColor: "#0F0C01",
-    padding: 10,
+    color: "orange",
   },
   btnArea: {
     width: "100%",
@@ -101,7 +98,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "80%",
-    backgroundColor: "#0F0C01",
+    backgroundColor: "#000000",
     alignContent: "center",
     alignItems: "center",
     height: "18%",
@@ -110,17 +107,13 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 50,
   },
-  btnText: {
-    color: "#F7BE15",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
+
   text: {
-    fontSize: 40,
+    fontSize: 45,
     alignSelf: "center",
-    fontWeight: "900",
+    fontWeight: "bold",
     color: "#fff",
-    marginTop: 200,
+    marginTop: 180,
     textAlign: "center",
   },
 });
