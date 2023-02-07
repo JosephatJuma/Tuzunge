@@ -15,7 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function User({ back, toBook, logoutFunction }) {
+export default function User({ email, name, phone, id }) {
   const profile = true;
 
   return (
@@ -43,9 +43,10 @@ export default function User({ back, toBook, logoutFunction }) {
               <FontAwesome name="user-circle" size={100} color="orange" />
             </View>
             <View>
-              <Text style={styles.text}> 23467834yeui3o4y73380 </Text>
-              <Text style={styles.text}>jumajosephat61@gmail.com </Text>
-              <Text style={styles.text}> 0702206985 </Text>
+              <Text style={styles.text}>UserID: {id} </Text>
+              <Text style={styles.text}>Email: {email} </Text>
+              <Text style={styles.text}>Name: {name} </Text>
+              <Text style={styles.text}>Phone Number: {phone}</Text>
             </View>
             <View
               style={[

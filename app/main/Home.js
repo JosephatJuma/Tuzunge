@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 //import setRota
 import { StatusBar } from "expo-status-bar";
-import { Header, Badge, Button } from "@rneui/base";
+import { Header, Badge, Button, AirbnbRating } from "@rneui/base";
 import { LinearGradient } from "expo-linear-gradient";
 import Navigation from "./Navigation";
 import { Entypo } from "@expo/vector-icons";
@@ -33,6 +33,7 @@ export default function Home({
   toBook,
   toRecent,
   toTravel,
+  toReviws,
   toNotification,
   name,
 }) {
@@ -173,6 +174,16 @@ export default function Home({
                     />
                     <Text style={styles.text}>{event.name}</Text>
                     <Text style={styles.text}>The Details will be here</Text>
+                    <Text style={styles.text}>UGX 100000</Text>
+                    {event.id === 5 && (
+                      <View style={{ display: "flex", flexDirection: "row" }}>
+                        <FontAwesome name="star" color="orange" size={15} />
+                        <FontAwesome name="star" color="orange" size={15} />
+                        <FontAwesome name="star" color="orange" size={15} />
+                        <FontAwesome name="star" color="orange" size={15} />
+                        <FontAwesome name="star" color="orange" size={15} />
+                      </View>
+                    )}
                   </TouchableOpacity>
                 );
               })}
@@ -224,6 +235,27 @@ export default function Home({
                 );
               })}
             </ScrollView>
+            <Text style={[styles.areaText]}>Hotel Rooms</Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {events.map((event) => {
+                return (
+                  <TouchableOpacity
+                    key={event.id}
+                    style={[styles.boxShadow, styles.tripContainer]}
+                  >
+                    <Image
+                      style={[styles.trip, styles.boxShadow]}
+                      source={require(`../assets/images/image6.jpg`)}
+                    />
+                    <Text style={styles.text}>{event.name}</Text>
+                    <Text style={styles.text}>The Details will be here</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
             <View style={styles.area1}>
               <View
                 style={[styles.select3, { borderRadius: 5, borderWidth: 1 }]}
@@ -235,6 +267,23 @@ export default function Home({
               </View>
             </View>
           </ScrollView>
+          <View
+            style={{
+              backgroundColor: "orange",
+              width: "100%",
+              alignContent: "center",
+              alignItems: "center",
+              height: 150,
+              borderTopLeftRadius: 1000,
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Text
+              style={[{ fontSize: 22, color: "#fff", textAlign: "center" }]}
+            >
+              Copyright Uganda Tuzunge 2023
+            </Text>
+          </View>
         </View>
       </ScrollView>
 
@@ -243,6 +292,7 @@ export default function Home({
         isHome={home}
         events={toEvents}
         bookings={toBook}
+        reviews={toReviws}
       />
     </View>
   );
@@ -271,7 +321,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "100",
     fontSize: 25,
-    fontWeight: "bold",
+    fontWeight: "400",
     color: "#000",
   },
   children: {
@@ -299,7 +349,7 @@ const styles = StyleSheet.create({
     width: "80%",
     alignContent: "center",
     alignItems: "center",
-    height: "8%",
+    height: "5%",
     top: "-5%",
     borderRadius: 5,
     display: "flex",
@@ -312,7 +362,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    height: "60%",
+    height: 40,
     padding: 10,
   },
   area: {
@@ -361,12 +411,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
   },
-  selectOne: {
-    backgroundColor: "#ffffff",
-    width: "30%",
-    height: "100%",
-    padding: 10,
-  },
+
   boxShadow: {
     shadowColor: "#000",
     shadowOffset: { width: 6, height: 10 },
@@ -401,14 +446,14 @@ const styles = StyleSheet.create({
   text: {
     color: "grey",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 15,
     lineHeight: 15,
     letterSpacing: -0.1,
     textAlign: "center",
   },
   areaText: {
     fontSize: 20,
-    color: "orange",
+    color: "#6B6766",
     alignSelf: "flex-start",
     marginLeft: 15,
     fontWeight: "bold",

@@ -13,12 +13,12 @@ import axios from "axios";
 const port = "http://192.168.72.77";
 // 192.168.103.198
 const bookingsAPI = port + ":10000/user/all/bookings";
-export const Booking = ({ toHome, toProfile, toEvents, getNum }) => {
+export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
   const book = true;
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    const user = { userID: "54r73wet4gh3b4pejh" };
+    const user = { userID: userID };
     if (bookings.length <= 0) {
       setTimeout(() => {
         if (bookings.length <= 0) {

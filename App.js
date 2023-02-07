@@ -26,6 +26,7 @@ import { RecentTrips } from "./app/main/recent/RecentTrips";
 import { Support } from "./app/main/support/Support";
 import { TravelPlan } from "./app/main/tracking/TravelPlan";
 import { Notifications } from "./app/main/Notifications/Notifications";
+import { Reviews } from "./app/main/reviews/Reviews";
 import User from "./app/main/User";
 import { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -88,10 +89,11 @@ export default function App() {
         toEvents={() => navigation.navigate("Events")}
         toBook={() => navigation.navigate("My Bookings")}
         toPay={() => navigation.navigate("Select Payment Method")}
-        toTrack={() => navigation.navigate("Vehicle Tracking")}
+        toTrack={() => navigation.navigate("Hotel Rooms")}
         toRecent={() => navigation.navigate("My Recent Trips")}
         toNotification={() => navigation.navigate("Notifications")}
         toTravel={() => navigation.navigate("My Travel Plan")}
+        toReviws={() => navigation.navigate("Reviews")}
       />
     );
   };
@@ -103,10 +105,15 @@ export default function App() {
     const nav = useNavigation();
     return <Track />;
   };
+  const ReviewsScreen = () => {
+    const nav = useNavigation();
+    return <Reviews />;
+  };
   const BookingScreen = () => {
     const navigation = useNavigation();
     return (
       <Booking
+        userID={user.userID}
         toProfile={() => navigation.navigate("Profile")}
         toEvents={() => navigation.navigate("Events")}
         toHome={() => navigation.navigate("Home")}
@@ -134,6 +141,7 @@ export default function App() {
     const navigation = useNavigation();
     return (
       <Events
+        userID={user.userID}
         toProfile={() => navigation.navigate("Profile")}
         toHome={() => navigation.navigate("Home")}
         toBook={() => navigation.navigate("My Bookings")}
@@ -188,7 +196,14 @@ export default function App() {
     );
   };
   const UserScreen = () => {
-    return <User />;
+    return (
+      <User
+        email={user.email}
+        id={user.userID}
+        phone={user.phoneNumber}
+        name={user.name}
+      />
+    );
   };
   const PaymentMethodScreen = () => {
     const navigation = useNavigation();
@@ -399,7 +414,7 @@ export default function App() {
           options={styles.headerOptions}
         />
         <Stack.Screen
-          name="Vehicle Tracking"
+          name="Hotel Rooms"
           component={TrackingScreen}
           options={styles.headerOptions}
         />
@@ -426,6 +441,11 @@ export default function App() {
         <Stack.Screen
           name="User Account"
           component={UserScreen}
+          options={styles.headerOptions}
+        />
+        <Stack.Screen
+          name="Reviews"
+          component={ReviewsScreen}
           options={styles.headerOptions}
         />
       </Stack.Navigator>

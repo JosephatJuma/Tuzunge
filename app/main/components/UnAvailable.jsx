@@ -4,8 +4,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 export const UnAvailable = () => {
   return (
     <View style={styles.unAvailable}>
-      <MaterialIcons name="do-not-disturb" size={300} color="orange" />
-      <Text style={styles.text}>Un Availbe for now</Text>
+      <MaterialIcons name="developer-mode" size={300} color="orange" />
+      <Text style={styles.text}>Still under development</Text>
     </View>
   );
 };

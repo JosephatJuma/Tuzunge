@@ -12,10 +12,12 @@ export default function Navigation({
   home,
   events,
   bookings,
+  reviews,
   isHome,
   isProfile,
   isEvents,
   isBookings,
+  isReviews,
 }) {
   return (
     <LinearGradient
@@ -75,20 +77,17 @@ export default function Navigation({
         </TouchableOpacity>
         <TouchableOpacity
           style={[isBookings ? styles.current : {}, styles.item]}
-          onPress={bookings}
+          onPress={reviews}
         >
           <FontAwesome5
             name="star"
             size={25}
-            color={isBookings ? "orange" : "#808080"}
+            color={isReviews ? "orange" : "#808080"}
           />
           <Text
-            style={[
-              styles.text,
-              isBookings ? styles.textCurrent : styles.other,
-            ]}
+            style={[styles.text, isReviews ? styles.textCurrent : styles.other]}
           >
-            Ratings
+            Reviews
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

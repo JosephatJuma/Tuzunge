@@ -33,7 +33,14 @@ const port = "http://192.168.72.77";
 // 192.168.103.198
 const bookingAPI = port + ":10000/user/booking/";
 const tripsAPI = port + ":10000/all/trips";
-export default function Events({ toHome, toProfile, toBook, back, num }) {
+export default function Events({
+  toHome,
+  toProfile,
+  toBook,
+  back,
+  num,
+  userID,
+}) {
   const isEvents = true;
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(true);
@@ -101,7 +108,7 @@ export default function Events({ toHome, toProfile, toBook, back, num }) {
   //make a booking
   const bookingProcess = () => {
     let booking = trips.find((trip) => trip.id === selectedTrip);
-    booking = { ...booking, userID: "54r73wet4gh3b4pejh" };
+    booking = { ...booking, userID: userID };
     setBooking(true);
     setTimeout(() => {
       axios
