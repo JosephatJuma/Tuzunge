@@ -15,8 +15,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-const port = "http://192.168.72.77";
-//"localhost";
+//localhost end point prefix
+import { port } from "../../api/Api";
 const endpointURL = port + ":10000/user/create";
 export default function SignUp({ loginInstead, myCity }) {
   //values

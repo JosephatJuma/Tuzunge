@@ -29,8 +29,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
-const port = "http://192.168.72.77";
-// 192.168.103.198
+//Api endpoint prefix
+import { port } from "../../api/Api";
+
 const bookingAPI = port + ":10000/user/booking/";
 const tripsAPI = port + ":10000/all/trips";
 export default function Events({
@@ -150,7 +151,7 @@ export default function Events({
     setTimeout(() => {
       fetchTrips();
       setRefreshing(false);
-    }, 1000);
+    }, 3000);
   }, []);
 
   //Initial Fetch when the component renders

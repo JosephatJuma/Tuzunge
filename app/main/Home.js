@@ -43,7 +43,7 @@ export default function Home({
   //const Drawer = createDrawerNavigator();
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const [arrowDirection, setArrowDirection] = useState("down");
-
+  const [balance, setBalance] = useState("150000");
   const [events, setEvents] = useState([
     { id: 1, name: "Destination", image: "../assets/images/image1.jpg" },
     { id: 2, name: "Destination", image: "../assets/images/image2.jpg" },
@@ -62,7 +62,9 @@ export default function Home({
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: true }
   );
-
+  function displayStar() {
+    return <FontAwesome name="star" color="orange" size={15} />;
+  }
   return (
     <View style={styles.home}>
       <StatusBar style="light" backgroundColor="orange" />
@@ -107,7 +109,10 @@ export default function Home({
             <View>
               <Text>Your Savings</Text>
               <Text style={{ fontWeight: "900", color: "grey", fontSize: 15 }}>
-                UGX. 150,000
+                UGX.{" "}
+                <Text style={{ fontSize: 20 }}>
+                  {"*".repeat(balance.length)}
+                </Text>
               </Text>
             </View>
 
@@ -177,8 +182,6 @@ export default function Home({
                     <Text style={styles.text}>UGX 100000</Text>
                     {event.id === 5 && (
                       <View style={{ display: "flex", flexDirection: "row" }}>
-                        <FontAwesome name="star" color="orange" size={15} />
-                        <FontAwesome name="star" color="orange" size={15} />
                         <FontAwesome name="star" color="orange" size={15} />
                         <FontAwesome name="star" color="orange" size={15} />
                         <FontAwesome name="star" color="orange" size={15} />

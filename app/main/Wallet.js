@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Button } from "@rneui/base";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 export default function Wallet({ toPay }) {
   const [history, setHistory] = useState([
     { id: 1, date: "Today", amount: "50000" },
@@ -23,22 +25,53 @@ export default function Wallet({ toPay }) {
 
   return (
     <View style={styles.wallet}>
-      <StatusBar style="light" backgroundColor="#F7BE15" />
+      <StatusBar style="light" backgroundColor="orange" />
       <View style={styles.amountArea}>
         <View style={styles.amount}>
-          <Text style={styles.amountText}>Total Amount(UGX):</Text>
+          <Text style={styles.amountText}>Balance</Text>
+          <Text style={[{ fontWeight: "bold" }, styles.amountText]}>
+            150,000
+          </Text>
+        </View>
+        <View style={styles.amount}>
+          <Text style={styles.amountText}>Balance</Text>
           <Text style={[{ fontWeight: "bold" }, styles.amountText]}>
             150,000
           </Text>
         </View>
       </View>
-      <Button
-        title="Add to wallet"
-        buttonStyle={styles.btn}
-        containerStyle={styles.btnCont}
-        titleStyle={styles.btnTitle}
-        onPress={toPay}
-      />
+      <View style={styles.services}>
+        <TouchableOpacity
+          style={[
+            styles.boxShadow,
+            styles.serviceItem,
+            { borderBottomWidth: 2, borderColor: "orange" },
+          ]}
+        >
+          <Ionicons name="receipt-outline" size={40} color="orange" />
+          <Text style={styles.itemText}>Transaction</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.boxShadow, styles.serviceItem]}
+          onPress={toPay}
+        >
+          <MaterialCommunityIcons name="upload" size={40} color="orange" />
+          <Text style={styles.itemText}>Deposit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.boxShadow, styles.serviceItem]}>
+          <MaterialCommunityIcons name="download" size={40} color="orange" />
+          <Text style={styles.itemText}>Withdraw</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.boxShadow, styles.serviceItem]}>
+          <MaterialCommunityIcons
+            name="send-outline"
+            size={40}
+            color="orange"
+          />
+          <Text style={styles.itemText}>Send</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView
         style={{ width: "100%", height: "80%" }}
         contentContainerStyle={{ alignContent: "center", alignItems: "center" }}
@@ -81,21 +114,44 @@ const styles = StyleSheet.create({
   wallet: { width: "100%", alignContent: "center", alignItems: "center" },
   amountArea: {
     backgroundColor: "#fff",
-    width: "100%",
+    width: "98%",
     justifyContent: "space-evenly",
     height: 50,
+    backgroundColor: "darkgrey",
+    height: 150,
+    borderRadius: 10,
+    padding: 10,
+    borderWidth: 2,
+    borderColor: "#000",
   },
   amount: {
-    display: "flex",
-    flexDirection: "row",
+    //display: "flex",
+    //flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  amountText: { fontSize: 20, color: "grey" },
+  amountText: { fontSize: 20, color: "#fff" },
   btnCont: {
     alignContent: "center",
     alignItems: "center",
     justifyContent: "space-evenly",
     width: "100%",
+  },
+  services: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  serviceItem: {
+    backgroundColor: "#fff",
+    width: "25%",
+    alignItems: "center",
+    alignContent: "center",
+  },
+  itemText: {
+    color: "#6B6766",
+    fontWeight: "bold",
+    letterSpacing: 0,
   },
   btn: { height: 50, width: "100%", backgroundColor: "orange" },
   btnTitle: { fontWeight: "bold", fontSize: 18 },

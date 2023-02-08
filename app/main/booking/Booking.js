@@ -9,9 +9,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Table, Row, Rows, Col } from "react-native-table-component";
 import { ListItem } from "@rneui/base";
 import axios from "axios";
+//localhost end point prefix
+import { port } from "../../../api/Api";
 
-const port = "http://192.168.72.77";
-// 192.168.103.198
 const bookingsAPI = port + ":10000/user/all/bookings";
 export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
   const book = true;

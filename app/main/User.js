@@ -43,7 +43,9 @@ export default function User({ email, name, phone, id }) {
               <FontAwesome name="user-circle" size={100} color="orange" />
             </View>
             <View>
-              <Text style={styles.text}>UserID: {id} </Text>
+              <Text style={styles.text}>
+                UserID: {"*".repeat(16) + id.slice(16)}
+              </Text>
               <Text style={styles.text}>Email: {email} </Text>
               <Text style={styles.text}>Name: {name} </Text>
               <Text style={styles.text}>Phone Number: {phone}</Text>
