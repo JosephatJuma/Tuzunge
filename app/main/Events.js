@@ -274,7 +274,12 @@ export default function Events({
               <Button
                 title="Refresh"
                 onPress={onRefresh}
-                buttonStyle={{ backgroundColor: "darkblue" }}
+                buttonStyle={{
+                  backgroundColor: "orange",
+                  width: "100%",
+                  borderRadius: 5,
+                }}
+                containerStyle={{ width: "80%" }}
               />
             </View>
           ) : (

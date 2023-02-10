@@ -23,6 +23,7 @@ import { Foundation } from "@expo/vector-icons";
 //import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
 import { AnimatedArrow } from "./components/AnimatedArrow";
+import { SharedElement } from "react-native-shared-element";
 
 export default function Home({
   toWallet,
@@ -35,6 +36,7 @@ export default function Home({
   toTravel,
   toReviws,
   toNotification,
+  toDetails,
   name,
 }) {
   const today = new Date();
@@ -169,25 +171,29 @@ export default function Home({
             >
               {events.map((event) => {
                 return (
-                  <TouchableOpacity
-                    key={event.id}
-                    style={[styles.boxShadow, styles.tripContainer]}
-                  >
-                    <Image
-                      style={[styles.trip, styles.boxShadow]}
-                      source={require(`../assets/images/image1.jpg`)}
-                    />
-                    <Text style={styles.text}>{event.name}</Text>
-                    <Text style={styles.text}>The Details will be here</Text>
-                    <Text style={styles.text}>UGX 100000</Text>
-                    {event.id === 5 && (
-                      <View style={{ display: "flex", flexDirection: "row" }}>
-                        <FontAwesome name="star" color="orange" size={15} />
-                        <FontAwesome name="star" color="orange" size={15} />
-                        <FontAwesome name="star" color="orange" size={15} />
-                      </View>
-                    )}
-                  </TouchableOpacity>
+                  <SharedElement key={event.id} id={event.id}>
+                    <TouchableOpacity
+                      style={[styles.boxShadow, styles.tripContainer]}
+                      onPress={toDetails}
+                    >
+                      <Image
+                        style={[styles.trip, styles.boxShadow]}
+                        source={require(`../assets/images/image1.jpg`)}
+                      />
+                      <Text style={styles.text}>{event.name}</Text>
+                      <Text style={styles.text}>
+                        The Details will be here when they are available
+                      </Text>
+                      <Text style={styles.text}>UGX 100000</Text>
+                      {event.id === 5 && (
+                        <View style={{ display: "flex", flexDirection: "row" }}>
+                          <FontAwesome name="star" color="orange" size={15} />
+                          <FontAwesome name="star" color="orange" size={15} />
+                          <FontAwesome name="star" color="orange" size={15} />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </SharedElement>
                 );
               })}
             </ScrollView>
@@ -430,25 +436,28 @@ const styles = StyleSheet.create({
     borderColor: "lightgrey",
   },
   tripContainer: {
-    height: 230,
+    height: 250,
     backgroundColor: "#fff",
     margin: 5,
-    borderRadius: 5,
-    borderWidth: 0.4,
-    borderColor: "grey",
+    borderRadius: 20,
+    borderWidth: 0.5,
+    borderColor: "lightgrey",
+    width: 250,
   },
   trip: {
-    width: 150,
+    width: "96%",
     backgroundColor: "orange",
-    height: 150,
+    height: "50%",
     margin: 5,
-    borderRadius: 5,
+    borderRadius: 20,
     alignContent: "center",
     alignItems: "center",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   text: {
     color: "grey",
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 15,
     lineHeight: 15,
     letterSpacing: -0.1,

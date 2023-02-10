@@ -17,6 +17,7 @@ import Home from "./app/main/Home";
 import Wallet from "./app/main/Wallet";
 import Profile from "./app/main/Profile";
 import Events from "./app/main/Events";
+import Details from "./app/main/Details";
 import PaymetMethod from "./app/main/payment/PaymetMethod";
 import MobileMoney from "./app/main/payment/MobileMoney";
 import OTP from "./app/main/payment/OTP";
@@ -31,6 +32,12 @@ import User from "./app/main/User";
 import { useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { enableScreens } from "react-native-screens";
+import {
+  SharedElement,
+  createShareElementStackNavigation,
+} from "react-native-shared-element";
+
 //Firbase
 import app from "./firebase/firebaseConfig";
 import {
@@ -80,7 +87,7 @@ export default function App() {
   };
 
   const HomeScreen = ({ navigation }) => {
-    console.log(user);
+    //console.log(user);
     return (
       <Home
         name={user.name}
@@ -94,8 +101,13 @@ export default function App() {
         toNotification={() => navigation.navigate("Notifications")}
         toTravel={() => navigation.navigate("My Travel Plan")}
         toReviws={() => navigation.navigate("Reviews")}
+        toDetails={() => navigation.navigate("Details")}
       />
     );
+  };
+  const DetailsScreen = () => {
+    const nav = useNavigation();
+    return <Details />;
   };
   const WalletScreen = () => {
     const nav = useNavigation();
@@ -313,7 +325,7 @@ export default function App() {
       />
     );
   };
-
+  enableScreens();
   const Stack = createNativeStackNavigator();
 
   useEffect(() => {
@@ -328,10 +340,17 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator animationType="fade">
+      <Stack.Navigator mode="modal">
         <Stack.Screen
           name="Get Started"
           component={signedIn ? HomeScreen : GetStartedScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
           options={{
             headerShown: false,
           }}

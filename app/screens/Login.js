@@ -14,7 +14,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-
+import {
+  TapGestureHandler,
+  RotationGestureHandler,
+} from "react-native-gesture-handler";
 export default function Login({
   goToForgot,
   loginFunction,
@@ -31,127 +34,134 @@ export default function Login({
   };
 
   return (
-    <ScrollView style={styles.login} contentContainerStyle={styles.loginCont}>
-      <StatusBar style="light" backgroundColor="orange" />
-      <Text style={{ fontSize: 30, fontWeight: "bold", color: "#000" }}>
-        Login to Continue
-      </Text>
+    <TapGestureHandler>
+      <RotationGestureHandler>
+        <ScrollView
+          style={styles.login}
+          contentContainerStyle={styles.loginCont}
+        >
+          <StatusBar style="light" backgroundColor="orange" />
+          <Text style={{ fontSize: 30, fontWeight: "bold", color: "#000" }}>
+            Login to Continue
+          </Text>
 
-      <View style={styles.form}>
-        <Text style={styles.text}>Enter email address</Text>
-        <Input
-          inputContainerStyle={{ borderBottomWidth: 0 }}
-          placeholderTextColor="grey"
-          inputStyle={styles.input}
-          placeholder="Enter email address"
-          containerStyle={styles.inputCont}
-          leftIcon={<MaterialIcons name="email" size={24} color="grey" />}
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-        />
-      </View>
-
-      <View style={styles.form}>
-        <Text style={styles.text}>User password</Text>
-        <Input
-          inputContainerStyle={{ borderBottomWidth: 0 }}
-          secureTextEntry={!show}
-          placeholderTextColor="grey"
-          placeholder="Enter a password"
-          inputStyle={styles.input}
-          containerStyle={styles.inputCont}
-          leftIcon={<MaterialIcons name="lock" size={24} color="grey" />}
-          rightIcon={
-            <Ionicons
-              name={show ? "eye-off" : "eye"}
-              size={24}
-              color="grey"
-              onPress={toggleShow}
+          <View style={styles.form}>
+            <Text style={styles.text}>Enter email address</Text>
+            <Input
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              placeholderTextColor="grey"
+              inputStyle={styles.input}
+              placeholder="Enter email address"
+              containerStyle={styles.inputCont}
+              leftIcon={<MaterialIcons name="email" size={24} color="grey" />}
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
             />
-          }
-          value={password}
-          onChangeText={setPassword}
-        />
-      </View>
+          </View>
 
-      <View style={styles.form}>
-        <Button
-          onPress={() => loginFunction(email, password)}
-          buttonStyle={styles.loginBtn}
-          titleStyle={styles.loginBtnText}
-          title={
-            verifying ? (
-              <>
-                <ActivityIndicator color="orange" size={30} />
-                <Text style={styles.loginBtnText}>verifying.....</Text>
-              </>
-            ) : (
-              "Login"
-            )
-          }
-          disabled={!password || !email ? true : false}
-          disabledStyle={{ backgroundColor: "lightgrey" }}
-          disabledTitleStyle={{ color: "orange" }}
-        />
-      </View>
+          <View style={styles.form}>
+            <Text style={styles.text}>User password</Text>
+            <Input
+              inputContainerStyle={{ borderBottomWidth: 0 }}
+              secureTextEntry={!show}
+              placeholderTextColor="grey"
+              placeholder="Enter a password"
+              inputStyle={styles.input}
+              containerStyle={styles.inputCont}
+              leftIcon={<MaterialIcons name="lock" size={24} color="grey" />}
+              rightIcon={
+                <Ionicons
+                  name={show ? "eye-off" : "eye"}
+                  size={24}
+                  color="grey"
+                  onPress={toggleShow}
+                />
+              }
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
 
-      <Button
-        title="Forgot password"
-        onPress={goToForgot}
-        containerStyle={{ width: "80%", marginTop: 10 }}
-        buttonStyle={[
-          styles.loginBtn,
-          {
-            backgroundColor: "#fff",
-            borderWidth: 2,
-            borderColor: "#000",
-            width: "100%",
-          },
-        ]}
-        titleStyle={styles.loginBtnText}
-        disabled={verifying}
-      />
+          <View style={styles.form}>
+            <Button
+              onPress={() => loginFunction(email, password)}
+              buttonStyle={styles.loginBtn}
+              titleStyle={styles.loginBtnText}
+              title={
+                verifying ? (
+                  <>
+                    <ActivityIndicator color="orange" size={30} />
+                    <Text style={styles.loginBtnText}>verifying.....</Text>
+                  </>
+                ) : (
+                  "Login"
+                )
+              }
+              disabled={!password || !email ? true : false}
+              disabledStyle={{ backgroundColor: "lightgrey" }}
+              disabledTitleStyle={{ color: "orange" }}
+            />
+          </View>
 
-      <View style={styles.alt}>
-        <Text>OR</Text>
-        <Button
-          onPress={loginWithGoogle}
-          title="Login with Google"
-          buttonStyle={styles.altBtn}
-          titleStyle={styles.altBtnTitle}
-          icon={<AntDesign name="google" size={24} color="#F5F5F5" />}
-          disabled={verifying}
-        />
-        <Button
-          onPress={loginWithFb}
-          title="Login with Facebook"
-          buttonStyle={[styles.altBtn, { backgroundColor: "#3b5998" }]}
-          titleStyle={styles.altBtnTitle}
-          icon={
-            <Entypo name="facebook-with-circle" size={24} color="#F5F5F5" />
-          }
-          disabled={verifying}
-        />
-      </View>
-      <Text>OR</Text>
-      <Button
-        title="Create Account"
-        onPress={create}
-        containerStyle={{ width: "80%" }}
-        buttonStyle={[
-          styles.loginBtn,
-          {
-            backgroundColor: "#fff",
-            borderWidth: 2,
-            borderColor: "#000",
-            width: "100%",
-          },
-        ]}
-        titleStyle={styles.loginBtnText}
-        disabled={verifying}
-      />
-    </ScrollView>
+          <Button
+            title="Forgot password"
+            onPress={goToForgot}
+            containerStyle={{ width: "80%", marginTop: 10 }}
+            buttonStyle={[
+              styles.loginBtn,
+              {
+                backgroundColor: "#fff",
+                borderWidth: 2,
+                borderColor: "#000",
+                width: "100%",
+              },
+            ]}
+            titleStyle={styles.loginBtnText}
+            disabled={verifying}
+          />
+
+          <View style={styles.alt}>
+            <Text>OR</Text>
+            <Button
+              onPress={loginWithGoogle}
+              title="Login with Google"
+              buttonStyle={styles.altBtn}
+              titleStyle={styles.altBtnTitle}
+              icon={<AntDesign name="google" size={24} color="#F5F5F5" />}
+              disabled={verifying}
+            />
+            <Button
+              onPress={loginWithFb}
+              title="Login with Facebook"
+              buttonStyle={[styles.altBtn, { backgroundColor: "#3b5998" }]}
+              titleStyle={styles.altBtnTitle}
+              icon={
+                <Entypo name="facebook-with-circle" size={24} color="#F5F5F5" />
+              }
+              disabled={verifying}
+            />
+          </View>
+          <Text>OR</Text>
+          <Button
+            title="Create Account"
+            onPress={create}
+            containerStyle={{ width: "80%" }}
+            buttonStyle={[
+              styles.loginBtn,
+              {
+                backgroundColor: "#fff",
+                borderWidth: 2,
+                borderColor: "#000",
+                width: "100%",
+              },
+            ]}
+            titleStyle={styles.loginBtnText}
+            disabled={verifying}
+          />
+        </ScrollView>
+      </RotationGestureHandler>
+    </TapGestureHandler>
   );
 }
 
