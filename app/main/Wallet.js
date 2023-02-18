@@ -4,12 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  PanResponder,
-  Animated,
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { Button } from "@rneui/base";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 export default function Wallet({ toPay }) {
@@ -49,26 +46,14 @@ export default function Wallet({ toPay }) {
           ]}
         >
           <Ionicons name="receipt-outline" size={40} color="orange" />
-          <Text style={styles.itemText}>Transaction</Text>
+          <Text style={styles.itemText}>Transactions</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.boxShadow, styles.serviceItem]}
           onPress={toPay}
         >
           <MaterialCommunityIcons name="upload" size={40} color="orange" />
-          <Text style={styles.itemText}>Deposit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.boxShadow, styles.serviceItem]}>
-          <MaterialCommunityIcons name="download" size={40} color="orange" />
-          <Text style={styles.itemText}>Withdraw</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.boxShadow, styles.serviceItem]}>
-          <MaterialCommunityIcons
-            name="send-outline"
-            size={40}
-            color="orange"
-          />
-          <Text style={styles.itemText}>Send</Text>
+          <Text style={styles.itemText}>Add to wallet</Text>
         </TouchableOpacity>
       </View>
 
@@ -140,11 +125,11 @@ const styles = StyleSheet.create({
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   serviceItem: {
     backgroundColor: "#fff",
-    width: "25%",
+    width: "49%",
     alignItems: "center",
     alignContent: "center",
   },

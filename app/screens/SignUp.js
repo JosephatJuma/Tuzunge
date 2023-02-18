@@ -29,7 +29,7 @@ export default function SignUp({ loginInstead, myCity }) {
   //validations
   const [isValidEmail, setValidEmail] = useState(false);
   const [isStrongPassword, setStrongPassword] = useState(false);
-  const [isValidName, setValidName] = useState(false);
+  const [isValidName, setValidName] = useState();
   const [isMatch, setIsMatch] = useState(false);
   const [isValidPhone, setValidPhone] = useState(false);
   //states
@@ -54,7 +54,42 @@ export default function SignUp({ loginInstead, myCity }) {
   const phoneREGEX =
     /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
 
+  const validateName = () => {
+    const valid = nameREGEX.test(name);
+    console.log(valid);
+    setValidName(valid);
+  };
+  const validateEmail = () => {
+    const valid = emailREGEX.test(email);
+    console.log(valid);
+    setValidEmail(valid);
+  };
+  const validatePhone = () => {
+    const valid = phoneREGEX.test(phone);
+    console.log(valid);
+    setValidPhone(valid);
+  };
+  const validatePassword = () => {
+    const valid = passGEX.test(password);
+    console.log(valid);
+    setStrongPassword(valid);
+  };
+  const matchPassword = () => {
+    if (confirm === password) {
+      setIsMatch(true);
+    } else {
+      setIsMatch(false);
+    }
+  };
   const handleSignUp = () => {
+    if (!name || !email || !phone || !password || !confirm) {
+      Alert.alert(
+        "Empty field(s) detected!",
+        "Please fill all the required fileds to continue!",
+        [{ text: "Alright" }]
+      );
+      return;
+    }
     if (!emailREGEX.test(email)) {
       setValidEmail(false);
       return;
@@ -107,14 +142,8 @@ export default function SignUp({ loginInstead, myCity }) {
             Alert.alert(
               "Registration Error!",
               response.data.message,
-              [
-                {
-                  text: "I get it",
-                },
-              ],
-              {
-                cancelable: true,
-              }
+              [{ text: "I get it" }],
+              { cancelable: true }
             );
             setLoadin(false);
             setDisable(false);
@@ -127,7 +156,9 @@ export default function SignUp({ loginInstead, myCity }) {
           setSent(true);
         })
         .catch((error) => {
-          alert(error);
+          Alert.alert(error, error.message, [{ text: "I get it" }], {
+            cancelable: true,
+          });
           setLoadin(false);
           setDisable(false);
           console.log(error);
@@ -191,6 +222,7 @@ export default function SignUp({ loginInstead, myCity }) {
               }
               errorStyle={styles.err}
               value={name}
+              onChange={validateName}
               onChangeText={setName}
             />
           </View>
@@ -216,6 +248,7 @@ export default function SignUp({ loginInstead, myCity }) {
               // onFocus={validateEmail}
               value={email}
               onChangeText={setEmail}
+              onChange={validateEmail}
             />
           </View>
 
@@ -239,6 +272,7 @@ export default function SignUp({ loginInstead, myCity }) {
               }
               errorStyle={styles.err}
               value={phone}
+              onChange={validatePhone}
               onChangeText={setPhone}
             />
           </View>
@@ -263,6 +297,8 @@ export default function SignUp({ loginInstead, myCity }) {
               }
               errorStyle={styles.err}
               value={password}
+              onChange={validatePassword}
+              onKeyPress={validatePassword}
               onChangeText={setPass}
             />
           </View>
@@ -286,6 +322,8 @@ export default function SignUp({ loginInstead, myCity }) {
               }
               errorStyle={styles.err}
               value={confirm}
+              onChange={matchPassword}
+              onKeyPress={matchPassword}
               onChangeText={setConfirm}
               rightIcon={
                 <Ionicons

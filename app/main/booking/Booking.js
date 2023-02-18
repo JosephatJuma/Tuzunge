@@ -16,7 +16,7 @@ const bookingsAPI = port + ":10000/user/all/bookings";
 export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
   const book = true;
   const [bookings, setBookings] = useState([]);
-
+  const [errMsg, setErrMsg] = useState("");
   useEffect(() => {
     const user = { userID: userID };
     if (bookings.length <= 0) {
@@ -27,17 +27,24 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
             .then((response) => {
               const data = response.data;
               console.log(data);
-              var values = Object.values(data);
-              getNum(values.length);
-              if (values.length > 0) {
-                for (var i = 0; i < values.length; i++) {
-                  const booking = values[i];
+              //var forst_name = "Juma Josephat";
+
+              if (data != null) {
+                let values = Object.values(data);
+                for (var index = 0; index < values.length; index++) {
+                  const booking = values[index];
                   setBookings((prev) => [...prev, booking]);
                 }
+                setErrMsg("");
+              } else {
+                setErrMsg(
+                  "Looks Like you haven' t made any bookings yet, there are a number of upcoming events, navigate to trips and place your first booking"
+                );
               }
             })
             .catch((error) => {
               console.log(error);
+              setErrMsg(error.message);
             });
         }
       }, 10);
@@ -59,19 +66,12 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
                 key={book.id}
               >
                 <ListItem.Content>
-                  <ListItem.Title>{book.id}</ListItem.Title>
-                  <ListItem.Subtitle>{book.dateBooked}</ListItem.Subtitle>
+                  <ListItem.Title style={styles.text}>{book.id}</ListItem.Title>
+                  <ListItem.Subtitle style={styles.text}>
+                    {book.dateBooked}
+                  </ListItem.Subtitle>
                 </ListItem.Content>
               </ListItem>
-              // <View style={[styles.booking, styles.boxShadow]} key={book.id}>
-              //   <Ionicons
-              //     name="md-chevron-down-circle"
-              //     size={50}
-              //     color="orange"
-              //     style={{ top: "25%" }}
-              //   />
-              // </View>
-              // <Table borderStyle={styles.booking} key={book.id}></Table>
             );
           })
         ) : (
@@ -88,7 +88,20 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
               },
             ]}
           >
-            <MaterialIcons name="error-outline" size={100} color="orange" />
+            <View
+              style={{
+                backgroundColor: "lightgrey",
+                width: 150,
+                height: 150,
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+                margin: 10,
+                borderRadius: 100,
+              }}
+            >
+              <MaterialIcons name="wifi-off" size={100} color="orange" />
+            </View>
             <Text
               style={{
                 fontSize: 20,
@@ -97,8 +110,7 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
                 fontWeight: "900",
               }}
             >
-              Looks Like you haven' t made any bookings yet, there are a number
-              of upcoming events, navigate to trips and place your first booking
+              {errMsg}
             </Text>
           </View>
         )}
@@ -124,15 +136,15 @@ const styles = StyleSheet.create({
   },
   booking: {
     backgroundColor: "#ffffff",
-    width: "98%",
-    height: 180,
-    padding: 5,
-    justifyContent: "center",
-    alignContent: "center",
+    width: "96%",
+    height: 150,
     alignItems: "center",
-    margin: 4,
-    borderWidth: 2,
-    borderColor: "grey",
+    alignContent: "center",
+    justifyContent: "center",
+    borderRadius: 15,
+    //borderWidth: 1,
+    borderColor: "orange",
+    margin: 2,
   },
   boxShadow: {
     shadowColor: "#000",
@@ -143,11 +155,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    color: "grey",
     fontWeight: "bold",
-    fontSize: 15,
-    lineHeight: 15,
-    letterSpacing: -0.1,
+    color: "grey",
+    fontSize: 18,
   },
   tr: {
     display: "flex",

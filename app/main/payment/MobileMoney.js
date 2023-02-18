@@ -17,7 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import { Input, Button } from "@rneui/base";
 
-export default function MobileMoney({ toOTP }) {
+export default function MobileMoney({ toOTP, phone }) {
   return (
     <View style={styles.home}>
       <StatusBar style="light" backgroundColor="orange" />

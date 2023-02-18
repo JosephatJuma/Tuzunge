@@ -50,6 +50,8 @@ export default function Events({
   const [selectedTrip, setSelectedTrip] = useState(0);
   const [booking, setBooking] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const [errMsg, setErrMsg] = useState("");
   const [events, setEvents] = useState([
     { id: 1, name: "" },
     { id: 2, name: "" },
@@ -73,13 +75,15 @@ export default function Events({
               const trip = values[i];
               setTrips((prevNotes) => [...prevNotes, trip]);
             }
+          } else {
+            setErrMsg("There are no events currently");
           }
           setLoading(false);
         })
         .catch((error) => {
-          alert(error.message);
           console.log(error.message);
           setLoading(false);
+          setErrMsg(error.message);
         });
     }
   };
@@ -270,7 +274,21 @@ export default function Events({
                 { height: 400, flexDirection: "column" },
               ]}
             >
-              <Text style={styles.text}>There are no trips currently</Text>
+              <View
+                style={{
+                  backgroundColor: "lightgrey",
+                  width: 150,
+                  height: 150,
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  margin: 10,
+                  borderRadius: 100,
+                }}
+              >
+                <MaterialIcons name="wifi-off" size={100} color="orange" />
+              </View>
+              <Text style={styles.text}>{errMsg}</Text>
               <Button
                 title="Refresh"
                 onPress={onRefresh}
@@ -331,9 +349,9 @@ export default function Events({
             backgroundColor: "#fff",
             width: "96%",
             maxHeight: "60%",
-            //marginBottom: "-100%",
-            borderRadius: 25,
-            padding: 15,
+            marginBottom: "-85%",
+            borderRadius: 15,
+            padding: 20,
           }}
           onPressOut={deselectItem}
         >
@@ -352,8 +370,8 @@ export default function Events({
                   Trip details
                 </Text>
                 <TouchableOpacity>
-                  <MaterialIcons
-                    name="highlight-remove"
+                  <FontAwesome5
+                    name="times"
                     size={26}
                     color="orange"
                     onPress={deselectItem}

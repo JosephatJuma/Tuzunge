@@ -34,7 +34,6 @@ export default function User({ email, name, phone, id }) {
                 height: 400,
                 justifyContent: "center",
                 alignItems: "center",
-
                 justifyContent: "space-evenly",
               },
             ]}
@@ -42,7 +41,8 @@ export default function User({ email, name, phone, id }) {
             <View>
               <FontAwesome name="user-circle" size={100} color="orange" />
             </View>
-            <View>
+
+            <View style={[styles.area, styles.boxShadow]}>
               <Text style={styles.text}>
                 UserID: {"*".repeat(16) + id.slice(16)}
               </Text>
@@ -62,7 +62,7 @@ export default function User({ email, name, phone, id }) {
               ]}
             >
               <Button
-                title="Update by profile"
+                title="Update my profile"
                 containerStyle={{ width: "90%" }}
                 buttonStyle={{
                   backgroundColor: "#000",
@@ -89,26 +89,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     //justifyContent: "center",
     width: "100%",
-    height: 700,
+    height: 1000,
   },
   area: {
-    alignItems: "center",
-    width: "100%",
-    height: "60%",
-  },
-  select: {
     backgroundColor: "#ffffff",
+    width: "96%",
+    height: 200,
     alignItems: "center",
-    width: "98%",
-    height: "12%",
     alignContent: "center",
-    padding: 10,
-
-    marginTop: 5,
-    justifyContent: "space-between",
-    display: "flex",
-    flexDirection: "row",
+    justifyContent: "center",
+    borderRadius: 15,
+    //borderWidth: 1,
+    borderColor: "orange",
   },
+
   boxShadow: {
     shadowColor: "#000",
     shadowOffset: { width: 6, height: 10 },
@@ -116,7 +110,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
-  text: { fontWeight: "bold", color: "grey", fontSize: 22 },
+  text: { fontWeight: "bold", color: "grey", fontSize: 18 },
   icon: {
     display: "flex",
     flexDirection: "row",

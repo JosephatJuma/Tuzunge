@@ -89,10 +89,13 @@ export default function Profile({
             </Text>
           </View>
           <View style={styles.area}>
-            <TouchableOpacity style={[styles.select, styles.boxShadow]}>
+            <TouchableOpacity
+              style={[styles.select, styles.boxShadow]}
+              onPress={toUser}
+            >
               <View style={styles.icon}>
                 <AntDesign name="edit" size={25} color="grey" />
-                <Text style={styles.text}>Edit Profile</Text>
+                <Text style={styles.text}>Manage Profile</Text>
               </View>
               <Entypo name="chevron-right" size={22} color="grey" />
             </TouchableOpacity>
@@ -135,6 +138,7 @@ export default function Profile({
               </View>
               <Entypo name="chevron-right" size={22} color="grey" />
             </TouchableOpacity>
+
             <TouchableOpacity
               style={[styles.select, styles.boxShadow]}
               onPress={logoutFunction}
@@ -145,6 +149,13 @@ export default function Profile({
               </View>
               <Entypo name="chevron-right" size={22} color="grey" />
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.select, styles.boxShadow]}>
+              <View style={styles.icon}>
+                <Ionicons name="exit" size={25} color="grey" />
+                <Text style={styles.text}>Exit App </Text>
+              </View>
+              <Entypo name="chevron-right" size={22} color="grey" />
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -152,7 +163,7 @@ export default function Profile({
         style={[
           {
             width: "100%",
-            backgroundColor: "#F5F5F5",
+            backgroundColor: "#fff",
             justifyContent: "center",
             alignItems: "center",
             height: 80,

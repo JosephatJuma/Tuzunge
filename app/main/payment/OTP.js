@@ -54,6 +54,7 @@ export default function OTP() {
 
   const otpVerification = () => {
     setVerifying(!verifying);
+    console.log(otp);
   };
   return (
     <View style={styles.home}>
@@ -65,10 +66,10 @@ export default function OTP() {
       <View style={styles.otpContainer}>
         {otp.map((otp, index) => (
           <Input
-            // secureTextEntry={true}
+            secureTextEntry={true}
             disabled={verifying}
             key={index}
-            keyboardType="number-pad"
+            keyboardType="numeric"
             placeholder="*"
             placeholderTextColor="grey"
             maxLength={1}
@@ -80,7 +81,7 @@ export default function OTP() {
             value={otp}
             inputContainerStyle={{
               borderColor: "grey",
-              borderBottomWidth: 2,
+              borderBottomWidth: 0,
               alignContent: "center",
               alignItems: "center",
             }}
@@ -120,23 +121,28 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     alignItems: "center",
-    width: "90%",
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     margin: 10,
-    height: 90,
+    height: 100,
     alignSelf: "center",
     justifyContent: "space-between",
     height: "20%",
   },
   input: {
     color: "orange",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "800",
     textAlign: "center",
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: "#fff",
+    borderColor: "grey",
+    height: 70,
   },
   otpInput: {
-    width: "20%",
+    width: "25%",
   },
   label: {
     color: "grey",
@@ -144,6 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: -0.2,
     textAlign: "center",
+    width: "90%",
   },
   btn: {
     backgroundColor: "#000000",

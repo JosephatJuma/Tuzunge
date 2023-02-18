@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Animated,
   Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
@@ -22,7 +21,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 //import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
-import { AnimatedArrow } from "./components/AnimatedArrow";
 import { SharedElement } from "react-native-shared-element";
 
 export default function Home({
@@ -43,7 +41,7 @@ export default function Home({
   const hr = today.getHours();
   const home = true;
   //const Drawer = createDrawerNavigator();
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
+
   const [arrowDirection, setArrowDirection] = useState("down");
   const [balance, setBalance] = useState("150000");
   const [events, setEvents] = useState([
@@ -54,19 +52,6 @@ export default function Home({
     { id: 5, name: "Destination", image: "../assets/images/image5.jpg" },
   ]);
 
-  //   const onScroll = (e) => {
-  //     const currentY = e.nativeEvent.contentOffset.y;
-  //     const direction = currentY > scrollY._value ? "up" : "down";
-  //     setArrowDirection(direction);
-  //     setScrollY(currentY);
-  //   };
-  const onScroll = Animated.event(
-    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-    { useNativeDriver: true }
-  );
-  function displayStar() {
-    return <FontAwesome name="star" color="orange" size={15} />;
-  }
   return (
     <View style={styles.home}>
       <StatusBar style="light" backgroundColor="orange" />
@@ -87,11 +72,11 @@ export default function Home({
             rightComponent={
               <TouchableOpacity onPress={toNotification}>
                 <Ionicons name="notifications" size={35} color="#1F1F1F" />
-                <Badge
+                {/* <Badge
                   badgeStyle={styles.badge}
-                  value={10}
+                  value={0}
                   textStyle={styles.badgeText}
-                />
+                /> */}
               </TouchableOpacity>
             }
             children={
@@ -138,14 +123,14 @@ export default function Home({
                   size={40}
                   color="orange"
                 />
-                <Text style={styles.text}>All Destinations</Text>
+                <Text style={styles.text}>Destinations</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.select, styles.boxShadow, styles.radius]}
                 onPress={toTrack}
               >
                 <MaterialIcons name="hotel" size={40} color="orange" />
-                <Text style={styles.text}>Book Hotel Room</Text>
+                <Text style={styles.text}>Hotel rooms</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.area}>
@@ -154,17 +139,18 @@ export default function Home({
                 onPress={toWallet}
               >
                 <Entypo name="wallet" size={40} color="orange" />
-                <Text style={styles.text}>In-App Wallet</Text>
+                <Text style={styles.text}>In-App wallet</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.select, styles.boxShadow, styles.radius]}
                 onPress={toBook}
               >
                 <FontAwesome name="bookmark" size={40} color="orange" />
-                <Text style={styles.text}>My Bookings</Text>
+                <Text style={styles.text}>My bookings</Text>
               </TouchableOpacity>
             </View>
-            <Text style={[styles.areaText]}>Suggested For You </Text>
+
+            <Text style={[styles.areaText]}>Suggested for you </Text>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -181,7 +167,12 @@ export default function Home({
                         source={require(`../assets/images/image1.jpg`)}
                       />
                       <Text style={styles.text}>{event.name}</Text>
-                      <Text style={styles.text}>
+                      <Text
+                        style={[
+                          styles.text,
+                          { fontWeight: "400", fontSize: 13 },
+                        ]}
+                      >
                         The Details will be here when they are available
                       </Text>
                       <Text style={styles.text}>UGX 100000</Text>
@@ -223,7 +214,7 @@ export default function Home({
                 />
               </TouchableOpacity>
             </View>
-            <Text style={[styles.areaText]}>Popular Destinations</Text>
+            <Text style={[styles.areaText]}>Popular destinations</Text>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -244,7 +235,7 @@ export default function Home({
                 );
               })}
             </ScrollView>
-            <Text style={[styles.areaText]}>Hotel Rooms</Text>
+            <Text style={[styles.areaText]}>Hotel rooms</Text>
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -260,7 +251,9 @@ export default function Home({
                       source={require(`../assets/images/image6.jpg`)}
                     />
                     <Text style={styles.text}>{event.name}</Text>
-                    <Text style={styles.text}>The Details will be here</Text>
+                    <Text style={[styles.text, { fontWeight: "400" }]}>
+                      The Details will be here
+                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -276,23 +269,6 @@ export default function Home({
               </View>
             </View>
           </ScrollView>
-          <View
-            style={{
-              backgroundColor: "orange",
-              width: "100%",
-              alignContent: "center",
-              alignItems: "center",
-              height: 150,
-              borderTopLeftRadius: 1000,
-              justifyContent: "space-evenly",
-            }}
-          >
-            <Text
-              style={[{ fontSize: 22, color: "#fff", textAlign: "center" }]}
-            >
-              Copyright Uganda Tuzunge 2023
-            </Text>
-          </View>
         </View>
       </ScrollView>
 
@@ -381,7 +357,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     margin: 5,
-    height: 80,
+    height: 75,
   },
   area1: {
     alignContent: "center",
@@ -436,20 +412,22 @@ const styles = StyleSheet.create({
     borderColor: "lightgrey",
   },
   tripContainer: {
-    height: 250,
+    height: 200,
     backgroundColor: "#fff",
     margin: 5,
-    borderRadius: 20,
-    borderWidth: 0.5,
+    borderRadius: 15,
+    borderWidth: 1,
     borderColor: "lightgrey",
-    width: 250,
+    width: 150,
+    alignContent: "center",
+    alignItems: "center",
   },
   trip: {
-    width: "96%",
+    width: "100%",
     backgroundColor: "orange",
     height: "50%",
-    margin: 5,
-    borderRadius: 20,
+    // margin: 5,
+    borderRadius: 15,
     alignContent: "center",
     alignItems: "center",
     borderBottomLeftRadius: 0,

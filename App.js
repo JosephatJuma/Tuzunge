@@ -1,13 +1,5 @@
 import * as ScreenOrientation from "expo-screen-orientation";
-import {
-  StyleSheet,
-  Text,
-  View,
-  DrawerLayoutAndroid,
-  Alert,
-} from "react-native";
-import { GestureResponderHandlers } from "react-native";
-import { GestureResponderEvent } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import GetStarted from "./app/screens/GetStarted";
 import { Country } from "./app/main/account/Country";
 import Login from "./app/screens/Login";
@@ -44,6 +36,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut,
+  signInWithPhoneNumber,
 } from "firebase/auth";
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
@@ -65,15 +60,18 @@ export default function App() {
     { id: 10, name: "Arua" },
     { id: 11, name: "Mbarara" },
   ]);
+
+  //forgot password
+  const [sendingEmail, setSending] = useState(false);
+  const [emailSent, setSent] = useState(false);
+  //select city
   const selectCity = (id, name) => {
-    //const c = cities.find((item) => item.id === id);
     if (id === selcetedId) {
       setSelcetedId(0);
       setSelcetedCity("");
       return;
     }
     setSelcetedId(id);
-    // const city = c.name;
     setSelcetedCity(name);
   };
 
@@ -167,29 +165,44 @@ export default function App() {
     const HandleLogout = () => {
       try {
         function logout() {
+          const auth = getAuth();
           return new Promise((resolve, reject) => {
             setTimeout(() => {
               resolve();
-              setSignedIn(false);
-              navigation.popToTop();
+              auth
+                .signOut()
+                .then(() => {
+                  //console.log("Signed Out");
+                  setSignedIn(false);
+                  setUser({});
+                  navigation.popToTop();
+                })
+                .catch((error) => {
+                  console.error("Sign Out Error", error);
+                  Alert.alert("Logout Error!", error.message);
+                });
             }, 10);
           });
         }
-        Alert.alert("Logout Alert!", "Are you sure you want to logout?", [
-          {
-            text: "cancel",
-            onPress: () => {
-              return;
+        Alert.alert(
+          "Logout Confirmation!",
+          "Are you sure you want to logout?",
+          [
+            {
+              text: "cancel",
+              onPress: () => {
+                return;
+              },
+              style: "cancel",
             },
-            style: "cancel",
-          },
-          {
-            text: "ok",
-            onPress: () => {
-              return logout();
+            {
+              text: "YES",
+              onPress: () => {
+                return logout();
+              },
             },
-          },
-        ]);
+          ]
+        );
       } catch (error) {
         console.log("error");
       }
@@ -251,7 +264,6 @@ export default function App() {
                 email: user.email,
                 verified: user.emailVerified,
               });
-              console.log("Success");
             })
             .then(() => {
               navigation.popToTop();
@@ -269,32 +281,21 @@ export default function App() {
       });
     };
     const logInWithFacebook = () => {
-      SetLogging(true);
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          setSignedIn(true);
-          SetLogging(false);
-          navigation.popToTop();
-          resolve();
-        }, 100);
-      });
+      Alert.alert(
+        "Not yet enabled",
+        "Hello, please create an account cuz this is not yet enabled"
+      );
     };
     const logInWithGoogle = () => {
-      SetLogging(true);
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          setSignedIn(true);
-          SetLogging(false);
-          navigation.popToTop();
-          resolve();
-        }, 100);
-      });
+      Alert.alert(
+        "Not yet enabled",
+        "Hello, please create an account cuz this is not yet enabled"
+      );
     };
     return (
       <Login
         verifying={logging}
         goToForgot={() => navigation.navigate("Forgot Password")}
-        //loginFunction={handleLogin}
         create={() => navigation.navigate("Select City")}
         loginFunction={handleLogin}
         loginWithFb={logInWithFacebook}
@@ -303,7 +304,40 @@ export default function App() {
     );
   };
   const ForgotScreen = () => {
-    return <Forgot />;
+    const navigation = useNavigation();
+    const resetPassword = (email) => {
+      setSending(true);
+      console.log(email);
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          //check with firebase
+          const auth = getAuth();
+          sendPasswordResetEmail(auth, email)
+            .then(() => {
+              setSending(false);
+              setSent(true);
+            })
+            .catch((error) => {
+              Alert.alert("Login Error!", error.message);
+              setSending(false);
+            });
+
+          resolve();
+        }, 100);
+      });
+    };
+    const resend = () => {
+      setSent(false);
+    };
+    return (
+      <Forgot
+        reset={resetPassword}
+        sending={sendingEmail}
+        sent={emailSent}
+        login={() => navigation.push("Login")}
+        resend={resend}
+      />
+    );
   };
   const SignUpScreen = ({ navigation }) => {
     //console.log(selcetedCity);
@@ -340,7 +374,7 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator mode="modal">
+      <Stack.Navigator mode="modal" initialRouteName="Get Started">
         <Stack.Screen
           name="Get Started"
           component={signedIn ? HomeScreen : GetStartedScreen}

@@ -33,7 +33,7 @@ export default function Navigation({
         >
           <FontAwesome
             name="tachometer"
-            size={25}
+            size={23}
             color={isHome ? "orange" : "#808080"}
           />
           <Text
@@ -48,7 +48,7 @@ export default function Navigation({
         >
           <MaterialIcons
             name="explore"
-            size={25}
+            size={23}
             color={isEvents ? "orange" : "#808080"}
           />
           <Text
@@ -63,7 +63,7 @@ export default function Navigation({
         >
           <FontAwesome5
             name="briefcase"
-            size={25}
+            size={23}
             color={isBookings ? "orange" : "#808080"}
           />
           <Text
@@ -81,7 +81,7 @@ export default function Navigation({
         >
           <FontAwesome5
             name="star"
-            size={25}
+            size={23}
             color={isReviews ? "orange" : "#808080"}
           />
           <Text
@@ -96,7 +96,7 @@ export default function Navigation({
         >
           <FontAwesome
             name="user"
-            size={25}
+            size={23}
             color={isProfile ? "orange" : "#808080"}
           />
           <Text
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignContent: "center",
     alignItems: "center",
-    height: 70,
+    height: 60,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    width: "22%",
+    width: "23%",
     alignContent: "center",
     alignItems: "center",
     height: "100%",
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     // borderTopWidth: 2,
     //borderBottomWidth: 2,
   },
-  text: { fontWeight: "bold", fontSize: 14 },
+  text: { fontWeight: "bold", fontSize: 13 },
   textCurrent: { color: "orange" },
   other: { color: "#808080" },
 });

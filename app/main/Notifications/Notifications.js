@@ -1,17 +1,31 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-
+import { MaterialIcons } from "@expo/vector-icons";
 export const Notifications = () => {
   return (
     <View style={styles.notifications}>
       <StatusBar style="light" backgroundColor="orange" />
-
-      <View style={styles.area}>
+      <View
+        style={{
+          backgroundColor: "lightgrey",
+          width: 150,
+          height: 150,
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          margin: 10,
+          borderRadius: 100,
+        }}
+      >
+        <MaterialIcons name="notifications-active" size={100} color="orange" />
+      </View>
+      <Text style={styles.text}>You have no Notifications yet</Text>
+      {/* <View style={styles.area}>
         <View style={[styles.boxShadow, styles.not]}>
           <Text style={styles.text}>You have no Notifications yet</Text>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -46,7 +60,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "grey",
-    fontWeight: "bold",
+    fontWeight: "400",
     fontSize: 22,
   },
 });
