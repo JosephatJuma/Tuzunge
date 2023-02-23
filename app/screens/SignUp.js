@@ -255,6 +255,7 @@ export default function SignUp({ loginInstead, myCity }) {
           <View style={styles.form}>
             <Text style={styles.text}>Phone number</Text>
             <Input
+              maxLength={13}
               disabled={disableForm}
               keyboardType="phone-pad"
               inputContainerStyle={{ borderBottomWidth: 0 }}

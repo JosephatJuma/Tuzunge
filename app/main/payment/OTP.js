@@ -85,7 +85,7 @@ export default function OTP() {
               alignContent: "center",
               alignItems: "center",
             }}
-            style={styles.input}
+            style={[styles.input, styles.boxShadow]}
             cursorColor="orange"
             onKeyPress={(e) => pressBack(e, index)}
           />
@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "800",
     textAlign: "center",
-    borderWidth: 1,
     borderRadius: 5,
     backgroundColor: "#fff",
     borderColor: "grey",
@@ -168,5 +167,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     width: "80%",
+  },
+  boxShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 6, height: 10 },
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    elevation: 5,
   },
 });

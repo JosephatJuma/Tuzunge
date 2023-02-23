@@ -54,7 +54,7 @@ export default function Navigation({
           <Text
             style={[styles.text, isEvents ? styles.textCurrent : styles.other]}
           >
-            Events
+            Explore
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

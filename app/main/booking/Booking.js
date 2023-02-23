@@ -1,5 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { UnAvailable } from "../components/UnAvailable";
 import { Ionicons } from "@expo/vector-icons";
@@ -61,7 +67,7 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
         {bookings.length > 0 ? (
           bookings.map((book) => {
             return (
-              <ListItem
+              <TouchableOpacity
                 style={[styles.booking, styles.boxShadow]}
                 key={book.id}
               >
@@ -71,7 +77,7 @@ export const Booking = ({ toHome, toProfile, toEvents, getNum, userID }) => {
                     {book.dateBooked}
                   </ListItem.Subtitle>
                 </ListItem.Content>
-              </ListItem>
+              </TouchableOpacity>
             );
           })
         ) : (
@@ -137,14 +143,15 @@ const styles = StyleSheet.create({
   booking: {
     backgroundColor: "#ffffff",
     width: "96%",
-    height: 150,
+    height: 80,
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
-    borderRadius: 15,
+    borderRadius: 5,
     //borderWidth: 1,
     borderColor: "orange",
     margin: 2,
+    padding: 10,
   },
   boxShadow: {
     shadowColor: "#000",
@@ -152,12 +159,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 5,
-    borderRadius: 10,
   },
   text: {
-    fontWeight: "bold",
+    fontWeight: "500",
     color: "grey",
-    fontSize: 18,
+    fontSize: 15,
   },
   tr: {
     display: "flex",

@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
-  text: { fontWeight: "bold", color: "grey", fontSize: 16 },
+  text: { fontWeight: "400", color: "grey", fontSize: 16 },
   icon: {
     display: "flex",
     flexDirection: "row",

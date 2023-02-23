@@ -31,6 +31,7 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 //Api endpoint prefix
 import { port } from "../../api/Api";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 const bookingAPI = port + ":10000/user/booking/";
 const tripsAPI = port + ":10000/all/trips";
@@ -41,9 +42,9 @@ export default function Events({
   back,
   num,
   userID,
+  toSearch,
 }) {
   const isEvents = true;
-  const [search, setSearch] = useState("");
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
@@ -181,14 +182,12 @@ export default function Events({
             }}
           >
             <SearchBar
-              placeholder="Search by location"
-              onChangeText={setSearch}
-              value={search}
+              placeholder="What are you lookng for?"
               lightTheme
               containerStyle={styles.searchContainer}
               style={styles.input}
               inputContainerStyle={[styles.InputContainer, styles.boxShadow]}
-              onChange={(text) => searchForTrip(text)}
+              onPressIn={toSearch}
             />
           </View>
         }
@@ -266,6 +265,19 @@ export default function Events({
             />
           }
         >
+          {trips && (
+            <ScrollView horizontal={true}>
+              <TouchableHighlight style={styles.select}>
+                <Text>Trips</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.select}>
+                <Text>Hotels Rooms</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.select}>
+                <Text>Events</Text>
+              </TouchableHighlight>
+            </ScrollView>
+          )}
           {trips.length === 0 ? (
             <View
               style={[
@@ -344,17 +356,7 @@ export default function Events({
         bookings={toBook}
       />
       {showDetails && (
-        <Dialog
-          overlayStyle={{
-            backgroundColor: "#fff",
-            width: "96%",
-            maxHeight: "60%",
-            marginBottom: "-85%",
-            borderRadius: 15,
-            padding: 20,
-          }}
-          onPressOut={deselectItem}
-        >
+        <Dialog overlayStyle={styles.overLay} onPressOut={deselectItem}>
           <ScrollView>
             {!booking && (
               <View
@@ -520,14 +522,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: "100%",
   },
-  input: { fontSize: 18, color: "grey", fontWeight: "bold" },
+  select: {
+    borderWidth: 1,
+    minWidth: 100,
+    height: 40,
+    borderRadius: 20,
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    margin: 10,
+    backgroundColor: "lightgrey",
+  },
+  input: { fontSize: 15, color: "grey", fontWeight: "500" },
   loading: {
     width: "96%",
     alignContent: "center",
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 10,
-    height: 110,
+    height: 120,
     margin: 4,
     backgroundColor: "#fff",
     display: "flex",
@@ -563,4 +576,14 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   text: { fontSize: 18, fontWeight: "500", color: "grey" },
+  overLay: {
+    backgroundColor: "#fff",
+    width: "100%",
+    maxHeight: "60%",
+    marginBottom: "-90%",
+    borderRadius: 30,
+    padding: 15,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
 });

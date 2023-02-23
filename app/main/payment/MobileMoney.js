@@ -7,17 +7,13 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import { Entypo } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
 
 import { Input, Button } from "@rneui/base";
 
-export default function MobileMoney({ toOTP, phone }) {
+export default function MobileMoney({ toOTP, phone, pay }) {
+  const [phoneNumber, setPhoneNumber] = useState(phone);
+  const [amount, setAmount] = useState("");
+
   return (
     <View style={styles.home}>
       <StatusBar style="light" backgroundColor="orange" />
@@ -34,6 +30,8 @@ export default function MobileMoney({ toOTP, phone }) {
             containerStyle={[styles.inputCont]}
             inputContainerStyle={{ borderBottomWidth: 0 }}
             placeholder="e.g +256712345678"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
           />
           <Input
             label="Enter Amount"
@@ -43,14 +41,16 @@ export default function MobileMoney({ toOTP, phone }) {
             containerStyle={[styles.inputCont]}
             inputContainerStyle={{ borderBottomWidth: 0 }}
             placeholder="e.g 50000"
+            value={amount}
+            onChangeText={setAmount}
           />
 
           <Button
+            onPress={() => pay(phoneNumber, amount)}
             title="Request Payment"
             buttonStyle={styles.btn}
             titleStyle={styles.btnTitle}
             containerStyle={styles.btnCont}
-            onPress={toOTP}
           />
         </View>
       </ScrollView>
@@ -83,13 +83,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.4,
     borderColor: "orange",
     height: 50,
+    backgroundColor: "#fff",
   },
   label: { color: "orange" },
   btn: {
     backgroundColor: "#000000",
-    width: "80%",
-    height: 50,
-    borderRadius: 10,
+    width: "70%",
+    height: 52,
+    borderRadius: 5,
   },
   btnTitle: {
     color: "orange",

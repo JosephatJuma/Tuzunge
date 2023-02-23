@@ -39,7 +39,11 @@ export default function Forgot({ reset, sending, sent, login, resend }) {
           borderRadius: 100,
         }}
       >
-        <Entypo name="lock" size={100} color="orange" />
+        {sent ? (
+          <Entypo name="check" size={100} color="orange" />
+        ) : (
+          <Entypo name="lock" size={100} color="orange" />
+        )}
       </View>
 
       {!sent ? (

@@ -14,7 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-
+import { FlutterwaveButton } from "flutterwave-react-native";
+import { Button } from "@rneui/base";
 export default function PaymetMethod({ toMoMo }) {
   return (
     <View style={styles.home}>
@@ -24,41 +25,18 @@ export default function PaymetMethod({ toMoMo }) {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.area}>
-          <TouchableOpacity
-            style={[styles.select, styles.boxShadow]}
-            onPress={toMoMo}
-          >
-            <AntDesign name="mobile1" size={40} color="orange" />
-            <Text style={styles.text}>Mobile Money</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="google-pay" size={40} color="orange" />
-            <Text style={styles.text}>Google pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="cc-stripe" size={40} color="orange" />
-            <Text style={styles.text}>Stripe</Text>
-          </TouchableOpacity>
+          <FlutterwaveButton onPress={toMoMo} />
         </View>
         <View style={styles.area}>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="cc-amazon-pay" size={40} color="orange" />
-            <Text style={styles.text}>Amazon pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="cc-paypal" size={40} color="orange" />
-            <Text style={styles.text}>Paypal</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="cc-apple-pay" size={40} color="orange" />
-            <Text style={styles.text}>Apple Pay</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.area}>
-          <TouchableOpacity style={[styles.select, styles.boxShadow]}>
-            <FontAwesome5 name="cc-visa" size={40} color="orange" />
-            <Text style={styles.text}>Visa</Text>
-          </TouchableOpacity>
+          <Button
+            title="I will pay cash"
+            buttonStyle={{
+              backgroundColor: "orange",
+              width: "100%",
+              height: 52,
+              borderRadius: 5,
+            }}
+          />
         </View>
       </ScrollView>
     </View>

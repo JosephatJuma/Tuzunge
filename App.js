@@ -13,6 +13,7 @@ import Details from "./app/main/Details";
 import PaymetMethod from "./app/main/payment/PaymetMethod";
 import MobileMoney from "./app/main/payment/MobileMoney";
 import OTP from "./app/main/payment/OTP";
+import { Search } from "./app/main/Search";
 import { Track } from "./app/main/tracking/Track";
 import { Booking } from "./app/main/booking/Booking";
 import { RecentTrips } from "./app/main/recent/RecentTrips";
@@ -40,6 +41,15 @@ import {
   signOut,
   signInWithPhoneNumber,
 } from "firebase/auth";
+
+//FlutterWave
+import {
+  PayWithFlutterwave,
+  FlutterwaveButton,
+  FlutterwaveCheckout,
+  FlutterwaveInit,
+  Flutterwave,
+} from "flutterwave-react-native";
 export default function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [logging, SetLogging] = useState(false);
@@ -157,8 +167,13 @@ export default function App() {
         toBook={() => navigation.navigate("My Bookings")}
         back={() => navigation.goBack()}
         num={numberOfBookings}
+        toSearch={() => navigation.push("Search")}
       />
     );
+  };
+  const SearchScreen = () => {
+    const nav = useNavigation();
+    return <Search back={() => nav.goBack()} />;
   };
   const ProfileScreen = () => {
     const navigation = useNavigation();
@@ -232,12 +247,53 @@ export default function App() {
   };
   const PaymentMethodScreen = () => {
     const navigation = useNavigation();
+
     return (
       <PaymetMethod toMoMo={() => navigation.push("Mobile Money Payment")} />
     );
   };
   const MoMoScreen = ({ navigation }) => {
-    return <MobileMoney toOTP={() => navigation.push("Enter OTP")} />;
+    const processPayment = (phone, amt) => {
+      //Initialize Flutterwave module
+      // FlutterwaveInit({
+      //   publicKey: "FLWPUBK_TEST-9b20b51419bb0e23f960a0d675a78c75-X",
+      //   secretKey: "FLWSECK_TEST-42d83c2dec42a31c028c19d47e5551c9-X",
+      // });
+      // Make a payment
+      const paymentDetails = {
+        amount: 1000,
+        currency: "UGX",
+        payment_options: "card, ussd",
+        tx_ref: "YOUR_TRANSACTION_REFERENCE",
+        customer: {
+          email: "jumajosephat61@gmail.com",
+          phone_number: "+256702206985",
+          name: "Juma Josephat",
+        },
+        callback: (response) => {
+          console.log(response);
+        },
+      };
+
+      if (!phone) {
+        Alert.alert("Input Error!", "Phone number is required to continue");
+        return;
+      } else if (!amt) {
+        Alert.alert("Input Error!", "Enter the amount to pay");
+        return;
+      } else if (phone.length != 13) {
+        Alert.alert("Invalid Phone", "Enter a Valid phone number");
+        return;
+      }
+      navigation.push("Enter OTP");
+    };
+    return (
+      <MobileMoney
+        toOTP={() => navigation.push("Enter OTP")}
+        phone={user.phoneNumber}
+        pay={processPayment}
+      />
+    );
   };
   const OTPScreen = () => {
     return <OTP />;
@@ -256,7 +312,7 @@ export default function App() {
             .then((userCredential) => {
               // Signed in
               const user = userCredential.user;
-              console.log(user);
+              //console.log(user);
               setUser({
                 userID: user.uid,
                 name: user.displayName,
@@ -307,7 +363,6 @@ export default function App() {
     const navigation = useNavigation();
     const resetPassword = (email) => {
       setSending(true);
-      console.log(email);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           //check with firebase
@@ -321,7 +376,6 @@ export default function App() {
               Alert.alert("Login Error!", error.message);
               setSending(false);
             });
-
           resolve();
         }, 100);
       });
@@ -447,6 +501,13 @@ export default function App() {
         <Stack.Screen
           name="Events"
           component={EventsScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
           options={{
             headerShown: false,
           }}
