@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#000",
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: "400",
   },
   checkContainer: {
     borderRadius: 5,

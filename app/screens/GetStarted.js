@@ -58,6 +58,13 @@ export default function GetStarted({ toLogin, toSignUp }) {
           titleStyle={styles.btnTitle}
           containerStyle={styles.btnContainer}
         />
+        <Button
+          title="Continue as guest"
+          buttonStyle={styles.btn}
+          onPress={toLogin}
+          titleStyle={styles.btnTitle}
+          containerStyle={styles.btnContainer}
+        />
       </LinearGradient>
     </View>
   );
@@ -78,9 +85,9 @@ const styles = StyleSheet.create({
     marginTop: 120,
   },
   btnTitle: {
-    fontSize: 22,
+    fontSize: 18,
     textAlign: "center",
-    fontWeight: "bold",
+    fontWeight: "700",
     color: "orange",
   },
   btnArea: {
@@ -94,7 +101,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignContent: "center",
     alignItems: "center",
-    marginTop: -20,
+    marginTop: -30,
   },
   btn: {
     width: "80%",

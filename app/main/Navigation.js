@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     bottom: 0,
     borderColor: "orange",
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
     // shadowColor: "#000",
     // shadowOffset: { width: 2, height: 2 },
     // shadowOpacity: 1,

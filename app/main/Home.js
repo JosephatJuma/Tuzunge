@@ -299,15 +299,16 @@ const styles = StyleSheet.create({
   },
   greet: {
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 22,
     letterSpacing: -0.8,
     color: "#fff",
   },
   name: {
     fontWeight: "100",
-    fontSize: 25,
-    fontWeight: "400",
+    fontSize: 22,
+    fontWeight: "900",
     color: "#000",
+    letterSpacing: -0.8,
   },
   children: {
     width: 180,

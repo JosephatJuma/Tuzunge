@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "grey",
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 18,
     textAlign: "center",
     maxWidth: "90%",

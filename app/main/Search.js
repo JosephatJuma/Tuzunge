@@ -1,11 +1,38 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Input } from "@rneui/base";
+import { Input, Dialog } from "@rneui/base";
 export const Search = ({ back }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [showDialog, setShowDialog] = useState(true);
   const inputRef = useRef(null);
+  const slideAnim = useRef(new Animated.Value(800)).current;
+  //slides
+  const slideIn = () => {
+    setShowDialog(!showDialog);
+    Animated.timing(slideAnim, {
+      toValue: 300,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const slideOut = () => {
+    Animated.timing(slideAnim, {
+      toValue: 800,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+    setShowDialog(!showDialog);
+  };
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -42,6 +69,33 @@ export const Search = ({ back }) => {
           )
         }
       />
+      <View>
+        {showDialog && (
+          <TouchableOpacity onPress={slideIn}>
+            <Text>Show Dialog</Text>
+          </TouchableOpacity>
+        )}
+        <Animated.View
+          style={{
+            transform: [{ translateY: slideAnim }],
+            backgroundColor: "orange",
+            padding: 16,
+            borderRadius: 8,
+            position: "absolute",
+            top: 100,
+            left: 0,
+            right: 0,
+            height: 250,
+            width: "98%",
+            marginLeft: 3,
+          }}
+        >
+          <TouchableOpacity onPress={slideOut}>
+            <Text>Close Dialog</Text>
+          </TouchableOpacity>
+          <Text>Dialog Content</Text>
+        </Animated.View>
+      </View>
     </View>
   );
 };

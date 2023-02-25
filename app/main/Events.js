@@ -10,8 +10,9 @@ import {
   ActivityIndicator,
   RefreshControl,
   Alert,
+  Animated,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   Header,
@@ -31,7 +32,6 @@ import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 //Api endpoint prefix
 import { port } from "../../api/Api";
-import { TouchableHighlight } from "react-native-gesture-handler";
 
 const bookingAPI = port + ":10000/user/booking/";
 const tripsAPI = port + ":10000/all/trips";
@@ -267,15 +267,15 @@ export default function Events({
         >
           {trips && (
             <ScrollView horizontal={true}>
-              <TouchableHighlight style={styles.select}>
+              <TouchableOpacity style={[styles.select, styles.active]}>
                 <Text>Trips</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.select}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.select}>
                 <Text>Hotels Rooms</Text>
-              </TouchableHighlight>
-              <TouchableHighlight style={styles.select}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.select}>
                 <Text>Events</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </ScrollView>
           )}
           {trips.length === 0 ? (
@@ -319,7 +319,7 @@ export default function Events({
                   style={[
                     styles.boxShadow,
                     styles.loading,
-                    { borderRightWidth: 5, borderColor: "orange" },
+                    { borderRightWidth: 4, borderColor: "orange" },
                   ]}
                   key={trip.id}
                 >
@@ -352,7 +352,7 @@ export default function Events({
       <Navigation
         profile={toProfile}
         home={toHome}
-        isEvents={events}
+        isEvents={true}
         bookings={toBook}
       />
       {showDetails && (
@@ -367,15 +367,15 @@ export default function Events({
                 }}
               >
                 <Text
-                  style={[{ fontSize: 20, fontWeight: "600", color: "orange" }]}
+                  style={[{ fontSize: 18, fontWeight: "400", color: "#000" }]}
                 >
                   Trip details
                 </Text>
                 <TouchableOpacity>
                   <FontAwesome5
                     name="times"
-                    size={26}
-                    color="orange"
+                    size={23}
+                    color="#000"
                     onPress={deselectItem}
                   />
                 </TouchableOpacity>
@@ -453,18 +453,24 @@ export default function Events({
                   color="orange"
                 />
                 <Text
-                  style={{ color: "#000", fontSize: 25, fontWeight: "bold" }}
+                  style={{ color: "#000", fontSize: 22, fontWeight: "600" }}
                 >
                   Successfull Booking!
                 </Text>
                 <Button
                   title="OK"
-                  buttonStyle={{ backgroundColor: "#000", borderRadius: 10 }}
+                  containerStyle={{ alignSelf: "flex-end", width: "18%" }}
+                  buttonStyle={{
+                    backgroundColor: "#000",
+                    borderRadius: 10,
+                    alignSelf: "flex-end",
+                    width: "100%",
+                  }}
                   onPress={deselectItem}
                   titleStyle={{
                     color: "orange",
                     fontWeight: "bold",
-                    fontSize: 25,
+                    fontSize: 15,
                   }}
                 />
               </View>
@@ -480,7 +486,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F5F5F5",
     alignItems: "center",
-    //justifyContent: "center",
     width: "100%",
     height: 700,
   },
@@ -523,15 +528,20 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   select: {
-    borderWidth: 1,
     minWidth: 100,
     height: 40,
     borderRadius: 20,
     alignContent: "center",
     alignItems: "center",
     justifyContent: "space-evenly",
-    margin: 10,
-    backgroundColor: "lightgrey",
+    margin: 5,
+    backgroundColor: "#fff",
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+  },
+  active: {
+    backgroundColor: "orange",
   },
   input: { fontSize: 15, color: "grey", fontWeight: "500" },
   loading: {
@@ -575,15 +585,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "100%",
   },
-  text: { fontSize: 18, fontWeight: "500", color: "grey" },
+  text: { fontSize: 14, fontWeight: "500", color: "grey" },
   overLay: {
     backgroundColor: "#fff",
-    width: "100%",
+    width: "97%",
     maxHeight: "60%",
-    marginBottom: "-90%",
+    marginBottom: "-70%",
     borderRadius: 30,
     padding: 15,
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
+    // borderBottomRightRadius: 0,
+    // borderBottomLeftRadius: 0,
   },
 });
